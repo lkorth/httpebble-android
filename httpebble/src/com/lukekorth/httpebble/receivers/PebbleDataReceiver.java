@@ -1,30 +1,34 @@
 package com.lukekorth.httpebble.receivers;
 
+import static com.getpebble.android.kit.Constants.APP_UUID;
 import static com.getpebble.android.kit.Constants.MSG_DATA;
 import static com.getpebble.android.kit.Constants.TRANSACTION_ID;
+
+import java.util.UUID;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.getpebble.android.kit.PebbleKit;
+import com.lukekorth.httpebble.Constants;
 
 public class PebbleDataReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		int transactionId = intent.getIntExtra(TRANSACTION_ID, -1);
-		PebbleKit.sendAckToPebble(context, transactionId);
+		if ((UUID) intent.getSerializableExtra(APP_UUID) == Constants.HTTPEBBLE_UUID) {
+			PebbleKit.sendAckToPebble(context,
+					intent.getIntExtra(TRANSACTION_ID, -1));
 
-		String data = intent.getStringExtra(MSG_DATA);
-		if (data != null && data.length() != 0) {
-			Log.d("Pebble", data);
+			String data = intent.getStringExtra(MSG_DATA);
+			if (data != null && data.length() != 0) {
+				Intent serviceIntent = new Intent(context,
+						PebbleProxyIntentService.class);
+				serviceIntent.putExtras(intent.getExtras());
 
-			Intent serviceIntent = new Intent(context,
-					PebbleProxyIntentService.class);
-			serviceIntent.putExtra(MSG_DATA, data);
-
-			context.startService(serviceIntent);
+				context.startService(serviceIntent);
+			}
 		}
 	}
 
