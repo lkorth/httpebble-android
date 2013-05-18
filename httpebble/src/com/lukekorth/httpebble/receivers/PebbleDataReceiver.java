@@ -6,7 +6,10 @@ import static com.getpebble.android.kit.Constants.TRANSACTION_ID;
 import org.json.JSONException;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 
 import com.getpebble.android.kit.PebbleKit;
 import com.getpebble.android.kit.util.PebbleDictionary;
@@ -24,6 +27,11 @@ public class PebbleDataReceiver extends IntentService {
 		
         String data = intent.getStringExtra(MSG_DATA);
         if (data != null && data.length() != 0) {
+			PowerManager mgr = (PowerManager) getSystemService(Context.POWER_SERVICE);
+			WakeLock wakeLock = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+					"PebbleDataReceiver");
+			wakeLock.acquire();
+
         	try {
                 PebbleDictionary pebbleDictionary = PebbleDictionary.fromJson(data);
 
@@ -31,6 +39,8 @@ public class PebbleDataReceiver extends IntentService {
             } catch (JSONException e) {
                 // silently fail
             }
+
+			wakeLock.release();
         }
 	}
 
