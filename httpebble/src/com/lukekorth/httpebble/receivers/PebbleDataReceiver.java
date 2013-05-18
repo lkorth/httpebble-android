@@ -1,7 +1,12 @@
 package com.lukekorth.httpebble.receivers;
 
+import static com.getpebble.android.kit.Constants.APP_UUID;
 import static com.getpebble.android.kit.Constants.MSG_DATA;
 import static com.getpebble.android.kit.Constants.TRANSACTION_ID;
+
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.UUID;
 
 import org.json.JSONException;
 
@@ -35,6 +40,7 @@ public class PebbleDataReceiver extends IntentService {
 
 			try {
 				PebbleDictionary pebbleDictionary = PebbleDictionary.fromJson(data);
+				PebbleDictionary responseDictionary = new PebbleDictionary();
 
 				// http request
 				if (pebbleDictionary.getString(Constants.HTTP_URL_KEY) != null) {
@@ -43,7 +49,20 @@ public class PebbleDataReceiver extends IntentService {
 				// timezone infomation
 				else if (pebbleDictionary
 						.getUnsignedInteger(Constants.HTTP_TIME_KEY) != null) {
+					responseDictionary.addInt32(Constants.HTTP_TIME_KEY,
+							(int) System.currentTimeMillis() / 1000);
 
+					responseDictionary.addInt32(
+							Constants.HTTP_UTC_OFFSET_KEY,
+							TimeZone.getDefault().getOffset(
+									new Date().getTime()) / 1000);
+
+					responseDictionary.addUint8(Constants.HTTP_IS_DST_KEY,
+							(byte) ((TimeZone.getDefault()
+									.inDaylightTime(new Date())) ? 1 : 0));
+
+					responseDictionary.addString(Constants.HTTP_TZ_NAME_KEY,
+							TimeZone.getDefault().getID());
 				}
 				// location information
 				else if (pebbleDictionary
@@ -70,6 +89,11 @@ public class PebbleDataReceiver extends IntentService {
 						.getUnsignedInteger(Constants.HTTP_COOKIE_LOAD_KEY) != null) {
 
 				}
+
+				if (responseDictionary.size() > 0)
+					PebbleKit.sendDataToPebble(this,
+							(UUID) intent.getSerializableExtra(APP_UUID),
+							responseDictionary);
 			} catch (JSONException e) {
 				// silently fail
 			}
