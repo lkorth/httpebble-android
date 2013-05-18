@@ -17,7 +17,8 @@ public class PebbleDataReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		if ((UUID) intent.getSerializableExtra(APP_UUID) == Constants.HTTPEBBLE_UUID) {
+		if (((UUID) intent.getSerializableExtra(APP_UUID))
+				.equals(Constants.HTTPEBBLE_UUID)) {
 			PebbleKit.sendAckToPebble(context,
 					intent.getIntExtra(TRANSACTION_ID, -1));
 
