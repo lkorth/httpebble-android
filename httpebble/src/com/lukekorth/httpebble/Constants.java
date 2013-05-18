@@ -4,11 +4,15 @@ import java.util.UUID;
 
 public class Constants {
 
-    public static final UUID HTTPEBBLE_UUID = UUID.fromString("9141B628-BC89-498E-B147-049F49C099AD");
-    
-    public static final int HTTP_URL_KEY = 0xFFFF; // a URL to request
-    public static final int HTTP_STATUS_KEY = 0xFFFE; // the HTTP status code
-    public static final int HTTP_REQUEST_ID_KEY = 0xFFFC; // the request ID specified by the user to return (HTTP requests only)
+	public static final String HTTPEBBLE = "httpebble";
+
+	public static final String PEBBLE_ADDRESS = "address";
+
+	public static final UUID HTTPEBBLE_UUID = UUID.fromString("9141B628-BC89-498E-B147-049F49C099AD");
+
+	public static final int HTTP_URL_KEY = 0xFFFF; // a URL to request
+	public static final int HTTP_STATUS_KEY = 0xFFFE; // the HTTP status code
+	public static final int HTTP_REQUEST_ID_KEY = 0xFFFC; // the request ID specified by the user to return (HTTP requests only)
 	public static final int HTTP_CONNECT_KEY = 0xFFFB; // indicates that the watch has (re)connected to the phone app
 	public static final int HTTP_APP_ID_KEY = 0xFFF2; // specifies the application’s app ID
 	public static final int HTTP_COOKIE_STORE_KEY = 0xFFF0; // Request storing key-value data
@@ -23,5 +27,5 @@ public class Constants {
 	public static final int HTTP_LATITUDE_KEY = 0xFFE1; // User’s latitude
 	public static final int HTTP_LONGITUDE_KEY = 0xFFE2; // User’s longitude
 	public static final int HTTP_ALTITUDE_KEY = 0xFFE3; // User’s altitude
-	
+
 }
