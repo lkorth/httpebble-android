@@ -23,4 +23,5 @@ public class Constants {
 	public static final int HTTP_LATITUDE_KEY = 0xFFE1; // User’s latitude
 	public static final int HTTP_LONGITUDE_KEY = 0xFFE2; // User’s longitude
 	public static final int HTTP_ALTITUDE_KEY = 0xFFE3; // User’s altitude
+	
 }
