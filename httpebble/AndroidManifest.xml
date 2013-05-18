@@ -33,6 +33,13 @@
             </intent-filter>
         </receiver>
         
+        <receiver android:name=".receivers.PebbleConnectionReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.getpebble.action.PEBBLE_CONNECTED" />
+            </intent-filter>
+        </receiver>
+        
         <service android:name=".receivers.PebbleProxyIntentService" />
         
     </application>
