@@ -1,4 +1,4 @@
 [submodule "pebblekit"]
 	path = pebblekit
-	url = https://github.com/pebble/pebblekit.git
+	url = https://github.com/lkorth/pebblekit.git
 	ignore = dirty
