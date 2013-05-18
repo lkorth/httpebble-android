@@ -82,7 +82,7 @@ public class PebbleProxyIntentService extends IntentService {
 			}
 			// timezone infomation
 			else if (pebbleDictionary.getUnsignedInteger(HTTP_TIME_KEY) != null) {
-				responseDictionary.addInt32(HTTP_TIME_KEY, (int) System.currentTimeMillis() / 1000);
+				responseDictionary.addInt32(HTTP_TIME_KEY, (int) (System.currentTimeMillis() / 1000));
 				responseDictionary.addInt32(HTTP_UTC_OFFSET_KEY,
 						TimeZone.getDefault().getOffset(new Date().getTime()) / 1000);
 				responseDictionary.addUint8(HTTP_IS_DST_KEY,
