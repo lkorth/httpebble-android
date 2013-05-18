@@ -14,7 +14,7 @@ import com.getpebble.android.kit.util.PebbleDictionary;
 public class PebbleDataReceiver extends IntentService {
 
 	public PebbleDataReceiver() {
-		super("PebbleDataReciver");
+		super("PebbleDataReceiver");
 	}
 
 	@Override
