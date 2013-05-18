@@ -14,7 +14,16 @@
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
-        android:icon="@drawable/icon" >
+        android:icon="@drawable/icon">
+        
+        <activity android:name=".Httpebble"
+            android:label="@string/app_name"
+            android:icon="@drawable/icon">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         
         <receiver android:name=".receivers.PebbleDataReceiver"
             android:exported="true">
