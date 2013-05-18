@@ -22,7 +22,7 @@ import com.lukekorth.httpebble.Constants;
 public class PebbleProxyIntentService extends IntentService {
 
 	public PebbleProxyIntentService() {
-		super("PebbleDataReceiver");
+		super("PebbleProxyIntentService");
 	}
 
 	@Override
@@ -30,8 +30,7 @@ public class PebbleProxyIntentService extends IntentService {
 		String data = intent.getStringExtra(MSG_DATA);
 
 		PowerManager mgr = (PowerManager) getSystemService(Context.POWER_SERVICE);
-		WakeLock wakeLock = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-				"PebbleDataReceiver");
+		WakeLock wakeLock = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "PebbleProxyIntentService");
 		wakeLock.acquire();
 
 		try {
