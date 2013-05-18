@@ -12,11 +12,13 @@
         android:allowBackup="true"
         android:label="@string/app_name" >
         
-        <service android:name=".receivers.PebbleDataReceiver">
+        <receiver android:name=".receivers.PebbleDataReceiver">
             <intent-filter>
                 <action android:name="com.getpebble.action.app.RECEIVE" />
             </intent-filter>
-        </service>
+        </receiver>
+        
+        <service android:name=".receivers.PebbleProxyIntentService" />
         
     </application>
 
