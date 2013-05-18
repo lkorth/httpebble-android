@@ -16,7 +16,8 @@
         android:label="@string/app_name"
         android:icon="@drawable/icon" >
         
-        <receiver android:name=".receivers.PebbleDataReceiver">
+        <receiver android:name=".receivers.PebbleDataReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.getpebble.action.app.RECEIVE" />
             </intent-filter>
