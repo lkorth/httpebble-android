@@ -17,15 +17,12 @@ public class PebbleDataReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		if (((UUID) intent.getSerializableExtra(APP_UUID))
-				.equals(Constants.HTTPEBBLE_UUID)) {
-			PebbleKit.sendAckToPebble(context,
-					intent.getIntExtra(TRANSACTION_ID, -1));
+		if (((UUID) intent.getSerializableExtra(APP_UUID)).equals(Constants.HTTPEBBLE_UUID)) {
+			PebbleKit.sendAckToPebble(context, intent.getIntExtra(TRANSACTION_ID, -1));
 
 			String data = intent.getStringExtra(MSG_DATA);
 			if (data != null && data.length() != 0) {
-				Intent serviceIntent = new Intent(context,
-						PebbleProxyIntentService.class);
+				Intent serviceIntent = new Intent(context, PebbleProxyIntentService.class);
 				serviceIntent.putExtras(intent.getExtras());
 
 				context.startService(serviceIntent);
