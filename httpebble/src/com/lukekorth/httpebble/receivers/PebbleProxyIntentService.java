@@ -2,6 +2,7 @@ package com.lukekorth.httpebble.receivers;
 
 import static com.getpebble.android.kit.Constants.APP_UUID;
 import static com.getpebble.android.kit.Constants.MSG_DATA;
+import static com.lukekorth.httpebble.Constants.HTTPEBBLE;
 import static com.lukekorth.httpebble.Constants.HTTP_APP_ID_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_COOKIE_DELETE_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_COOKIE_LOAD_KEY;
@@ -14,6 +15,7 @@ import static com.lukekorth.httpebble.Constants.HTTP_TIME_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_TZ_NAME_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_URL_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_UTC_OFFSET_KEY;
+import static com.lukekorth.httpebble.Constants.PEBBLE_ADDRESS;
 
 import java.util.Date;
 import java.util.TimeZone;
@@ -58,20 +60,25 @@ public class PebbleProxyIntentService extends IntentService {
 				long requestIdKey = pebbleDictionary.getInteger(HTTP_REQUEST_ID_KEY);
 				pebbleDictionary.remove(HTTP_REQUEST_ID_KEY);
 
-				long appIdKey = (pebbleDictionary.getInteger(HTTP_APP_ID_KEY) != null) ? pebbleDictionary
-						.getInteger(HTTP_APP_ID_KEY) : 0;
-						pebbleDictionary.remove(HTTP_APP_ID_KEY);
+				long appIdKey;
+				if(pebbleDictionary.getInteger(HTTP_APP_ID_KEY) != null)
+					appIdKey = pebbleDictionary.getInteger(HTTP_APP_ID_KEY);
+				else
+					appIdKey = 0;
 
-						HttpRequest response = HttpRequest.post(url).contentType("application/json").header("X-PEBBLE-ID", "")
-								.send(pebbleDictionary.toJsonString());
+				pebbleDictionary.remove(HTTP_APP_ID_KEY);
 
-						Log.d("Pebble", response.body());
+				HttpRequest response = HttpRequest.post(url).contentType("application/json")
+						.header("X-PEBBLE-ID", getSharedPreferences(HTTPEBBLE, 0).getString(PEBBLE_ADDRESS, ""))
+						.send(pebbleDictionary.toJsonString());
 
-						responseDictionary = PebbleDictionary.fromJson(response.body());
-						responseDictionary.addInt16(HTTP_STATUS_KEY, (short) response.code());
-						responseDictionary.addInt8(HTTP_URL_KEY, (byte) ((response.code() == 200) ? 1 : 0));
-						responseDictionary.addInt32(HTTP_REQUEST_ID_KEY, (int) requestIdKey);
-						responseDictionary.addInt32(HTTP_APP_ID_KEY, (int) appIdKey);
+				Log.d("Pebble", response.body());
+
+				responseDictionary = PebbleDictionary.fromJson(response.body());
+				responseDictionary.addInt16(HTTP_STATUS_KEY, (short) response.code());
+				responseDictionary.addInt8(HTTP_URL_KEY, (byte) ((response.code() == 200) ? 1 : 0));
+				responseDictionary.addInt32(HTTP_REQUEST_ID_KEY, (int) requestIdKey);
+				responseDictionary.addInt32(HTTP_APP_ID_KEY, (int) appIdKey);
 			}
 			// timezone infomation
 			else if (pebbleDictionary.getUnsignedInteger(HTTP_TIME_KEY) != null) {
