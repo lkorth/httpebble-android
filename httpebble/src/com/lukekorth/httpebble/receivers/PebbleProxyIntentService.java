@@ -102,7 +102,7 @@ public class PebbleProxyIntentService extends IntentService {
 				// Iterator<PebbleTuple> itr = pebbleDictionary.iterator();
 
 			}
-			// removing entries from key-value store
+			// retrieving entries from key-value store
 			else if (pebbleDictionary.getInteger(HTTP_COOKIE_LOAD_KEY) != null) {
 
 			}
