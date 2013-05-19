@@ -18,10 +18,13 @@ import static com.lukekorth.httpebble.Constants.HTTP_UTC_OFFSET_KEY;
 import static com.lukekorth.httpebble.Constants.PEBBLE_ADDRESS;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -53,7 +56,7 @@ public class PebbleProxyIntentService extends IntentService {
 			PebbleDictionary responseDictionary = new PebbleDictionary();
 
 			// http request
-			if (pebbleDictionary.getUnsignedInteger(HTTP_URL_KEY) != null) {
+			if (pebbleDictionary.getString(HTTP_URL_KEY) != null) {
 				String url = pebbleDictionary.getString(HTTP_URL_KEY);
 				pebbleDictionary.remove(HTTP_URL_KEY);
 
@@ -72,11 +75,38 @@ public class PebbleProxyIntentService extends IntentService {
 						.header("X-PEBBLE-ID", getSharedPreferences(HTTPEBBLE, 0).getString(PEBBLE_ADDRESS, ""))
 						.send(pebbleDictionary.toJsonString());
 
-				Log.d("Pebble", response.body());
+				JSONObject json = new JSONObject(response.body());
+				Iterator<String> keys = json.keys();
+				while (keys.hasNext()) {
+					String key = keys.next();
+					Object value = json.get(key);
 
-				responseDictionary = PebbleDictionary.fromJson(response.body());
+					if (value instanceof String)
+						responseDictionary.addString(Integer.parseInt(key), (String) value);
+					else if (value instanceof Integer)
+						responseDictionary.addInt32(Integer.parseInt(key), (Integer) value);
+					else if (value instanceof JSONArray) {
+						JSONArray arr = (JSONArray) value;
+						String width = (String) arr.get(0);
+						int val = (Integer) arr.get(1);
+
+						if (width.equals("b"))
+							responseDictionary.addInt8(Integer.parseInt(key), (byte) val);
+						else if (width.equals("B"))
+							responseDictionary.addUint8(Integer.parseInt(key), (byte) val);
+						else if (width.equals("s"))
+							responseDictionary.addInt16(Integer.parseInt(key), (short) val);
+						else if (width.equals("S"))
+							responseDictionary.addUint16(Integer.parseInt(key), (short) val);
+						else if (width.equals("i"))
+							responseDictionary.addInt32(Integer.parseInt(key), val);
+						else if (width.equals("I"))
+							responseDictionary.addUint32(Integer.parseInt(key), val);
+					}
+				}
+
 				responseDictionary.addInt16(HTTP_STATUS_KEY, (short) response.code());
-				responseDictionary.addInt8(HTTP_URL_KEY, (byte) ((response.code() == 200) ? 1 : 0));
+				responseDictionary.addInt8(HTTP_URL_KEY, (byte) ((response.ok()) ? 1 : 0));
 				responseDictionary.addInt32(HTTP_REQUEST_ID_KEY, (int) requestIdKey);
 				responseDictionary.addInt32(HTTP_APP_ID_KEY, (int) appIdKey);
 			}
