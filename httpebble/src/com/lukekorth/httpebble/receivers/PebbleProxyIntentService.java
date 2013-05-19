@@ -112,7 +112,10 @@ public class PebbleProxyIntentService extends IntentService {
 			}
 			// fsync
 			else if (pebbleDictionary.getUnsignedInteger(HTTP_COOKIE_LOAD_KEY) != null) {
+				responseDictionary.addUint8(HTTP_COOKIE_LOAD_KEY, (byte) 1);
 
+				long httpAppIdKey = pebbleDictionary.getInteger(HTTP_APP_ID_KEY);
+				responseDictionary.addUint32(HTTP_APP_ID_KEY, (int) httpAppIdKey);
 			}
 
 			if (responseDictionary.size() > 0)
