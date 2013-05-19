@@ -95,12 +95,21 @@ public class PebbleProxyIntentService extends IntentService {
 			}
 			// setting entries in key-value store
 			else if (pebbleDictionary.getInteger(HTTP_COOKIE_STORE_KEY) != null) {
-				// responseDictionary.addUint32(HTTP_COOKIE_STORE_KEY,
-				// (int)
-				// pebbleDictionary.getInteger(HTTP_COOKIE_STORE_KEY));
+				long httpCookieStoreKey = pebbleDictionary.getInteger(HTTP_COOKIE_STORE_KEY);
+				responseDictionary.addUint32(HTTP_COOKIE_STORE_KEY, (int) httpCookieStoreKey);
+				pebbleDictionary.remove(HTTP_COOKIE_STORE_KEY);
 
-				// Iterator<PebbleTuple> itr = pebbleDictionary.iterator();
+				long httpAppIdKey = pebbleDictionary.getInteger(HTTP_APP_ID_KEY);
+				String appKey = Long.toString(httpAppIdKey);
+				responseDictionary.addUint32(HTTP_APP_ID_KEY, (int) httpAppIdKey);
+				pebbleDictionary.remove(HTTP_APP_ID_KEY);
 
+				SharedPreferences sharedPrefs = getSharedPreferences(appKey, 0);
+				Editor editor = sharedPrefs.edit();
+				for(PebbleTuple tuple : pebbleDictionary) {
+					editor.putString(Integer.toString(tuple.key), PebbleDictionary.serializeTuple(tuple).toString());
+				}
+				editor.commit();
 			}
 			// retrieving entries from key-value store
 			else if (pebbleDictionary.getInteger(HTTP_COOKIE_LOAD_KEY) != null) {
