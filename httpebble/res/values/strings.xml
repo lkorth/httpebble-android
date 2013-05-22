@@ -3,6 +3,12 @@
 
     <string name="app_name">httpebble</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="welcome">Welcome to httpebble, this app allows your Pebble smart watch to communicate with 
+        the Internet, access your location and store data. This app does not need to be open or running to be used
+        by your Pebble. 	</string>
+    <string name="info">This app uses the <a href="http://kathar.in/httpebble/">httpebble protocol</a>. Further information and support can be found
+        in the <a href="http://forums.getpebble.com/">Pebble forums</a>. 	</string>
+    <string name="source">The source code can be found on 		<a href="https://github.com/lkorth/httpebble-android">GitHub</a>.
+	</string>
 
 </resources>

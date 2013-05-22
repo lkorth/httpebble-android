@@ -9,8 +9,31 @@
     tools:context=".Httpebble" >
 
     <TextView
+        android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:autoLink="web"
+        android:text="@string/welcome"
+        android:textSize="18sp" />
+    
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcome"
+        android:layout_marginTop="10dp"
+        android:autoLink="web"
+        android:text="@string/info"
+        android:textSize="18sp" />
+    
+    <TextView
+        android:id="@+id/source"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/info"
+        android:layout_marginTop="10dp"
+        android:autoLink="web"
+        android:text="@string/source"
+        android:textSize="18sp" />
 
 </RelativeLayout>
