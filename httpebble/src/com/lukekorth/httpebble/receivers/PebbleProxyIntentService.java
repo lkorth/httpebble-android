@@ -2,6 +2,10 @@ package com.lukekorth.httpebble.receivers;
 
 import static com.getpebble.android.kit.Constants.APP_UUID;
 import static com.getpebble.android.kit.Constants.MSG_DATA;
+import static com.getpebble.android.kit.util.PebbleDictionary.KEY;
+import static com.getpebble.android.kit.util.PebbleDictionary.LENGTH;
+import static com.getpebble.android.kit.util.PebbleDictionary.TYPE;
+import static com.getpebble.android.kit.util.PebbleDictionary.VALUE;
 import static com.lukekorth.httpebble.Constants.HTTPEBBLE;
 import static com.lukekorth.httpebble.Constants.HTTP_APP_ID_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_COOKIE_DELETE_KEY;
@@ -29,12 +33,17 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.util.Base64;
 import android.util.Log;
 
 import com.getpebble.android.kit.PebbleKit;
 import com.getpebble.android.kit.util.PebbleDictionary;
+import com.getpebble.android.kit.util.PebbleTuple;
 import com.github.kevinsawicki.http.HttpRequest;
 
 public class PebbleProxyIntentService extends IntentService {
@@ -143,7 +152,54 @@ public class PebbleProxyIntentService extends IntentService {
 			}
 			// retrieving entries from key-value store
 			else if (pebbleDictionary.getInteger(HTTP_COOKIE_LOAD_KEY) != null) {
+				long httpCookieLoadKey = pebbleDictionary.getInteger(HTTP_COOKIE_LOAD_KEY);
+				responseDictionary.addUint32(HTTP_COOKIE_LOAD_KEY, (int) httpCookieLoadKey);
+				pebbleDictionary.remove(HTTP_COOKIE_LOAD_KEY);
 
+				long httpAppIdKey = pebbleDictionary.getInteger(HTTP_APP_ID_KEY);
+				String appKey = Long.toString(httpAppIdKey);
+				responseDictionary.addUint32(HTTP_APP_ID_KEY, (int) httpAppIdKey);
+				pebbleDictionary.remove(HTTP_APP_ID_KEY);
+
+				SharedPreferences sharedPrefs = getSharedPreferences(appKey, 0);
+				for (PebbleTuple tuple : pebbleDictionary) {
+					String storedTuple = sharedPrefs.getString(Integer.toString(tuple.key), null);
+
+					if (storedTuple != null) {
+						JSONObject o = new JSONObject(storedTuple);
+						int key = o.getInt(KEY);
+						PebbleTuple.TupleType type = PebbleTuple.TYPE_NAMES.get(o.getString(TYPE));
+						PebbleTuple.Width width = PebbleTuple.WIDTH_MAP.get(o.getInt(LENGTH));
+
+						switch (type) {
+						case BYTES:
+							byte[] bytes = Base64.decode(o.getString(VALUE), Base64.NO_WRAP);
+							responseDictionary.addBytes(key, bytes);
+							break;
+						case STRING:
+							responseDictionary.addString(key, o.getString(VALUE));
+							break;
+						case INT:
+							if (width == PebbleTuple.Width.BYTE) {
+								responseDictionary.addInt8(key, (byte) o.getInt(VALUE));
+							} else if (width == PebbleTuple.Width.SHORT) {
+								responseDictionary.addInt16(key, (short) o.getInt(VALUE));
+							} else if (width == PebbleTuple.Width.WORD) {
+								responseDictionary.addInt32(key, o.getInt(VALUE));
+							}
+							break;
+						case UINT:
+							if (width == PebbleTuple.Width.BYTE) {
+								responseDictionary.addUint8(key, (byte) o.getInt(VALUE));
+							} else if (width == PebbleTuple.Width.SHORT) {
+								responseDictionary.addUint16(key, (short) o.getInt(VALUE));
+							} else if (width == PebbleTuple.Width.WORD) {
+								responseDictionary.addUint32(key, o.getInt(VALUE));
+							}
+							break;
+						}
+					}
+				}
 			}
 			// deleting entries from key-value store
 			else if (pebbleDictionary.getInteger(HTTP_COOKIE_DELETE_KEY) != null) {
