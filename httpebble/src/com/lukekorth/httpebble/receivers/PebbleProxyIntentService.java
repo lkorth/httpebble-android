@@ -7,12 +7,15 @@ import static com.getpebble.android.kit.util.PebbleDictionary.LENGTH;
 import static com.getpebble.android.kit.util.PebbleDictionary.TYPE;
 import static com.getpebble.android.kit.util.PebbleDictionary.VALUE;
 import static com.lukekorth.httpebble.Constants.HTTPEBBLE;
+import static com.lukekorth.httpebble.Constants.HTTP_ALTITUDE_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_APP_ID_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_COOKIE_DELETE_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_COOKIE_LOAD_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_COOKIE_STORE_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_IS_DST_KEY;
+import static com.lukekorth.httpebble.Constants.HTTP_LATITUDE_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_LOCATION_KEY;
+import static com.lukekorth.httpebble.Constants.HTTP_LONGITUDE_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_REQUEST_ID_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_STATUS_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_TIME_KEY;
@@ -35,6 +38,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -45,8 +49,20 @@ import com.getpebble.android.kit.PebbleKit;
 import com.getpebble.android.kit.util.PebbleDictionary;
 import com.getpebble.android.kit.util.PebbleTuple;
 import com.github.kevinsawicki.http.HttpRequest;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.location.LocationClient;
 
-public class PebbleProxyIntentService extends IntentService {
+public class PebbleProxyIntentService extends IntentService implements GooglePlayServicesClient.ConnectionCallbacks,
+GooglePlayServicesClient.OnConnectionFailedListener {
+
+	private WakeLock wakelock;
+
+	private boolean waitForLocation;
+	private LocationClient mLocationClient;
+
+	private PebbleDictionary responseDictionary;
+	private UUID appUUID;
 
 	public PebbleProxyIntentService() {
 		super("PebbleProxyIntentService");
@@ -55,14 +71,17 @@ public class PebbleProxyIntentService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		String data = intent.getStringExtra(MSG_DATA);
+		appUUID = (UUID) intent.getSerializableExtra(APP_UUID);
 
 		PowerManager mgr = (PowerManager) getSystemService(Context.POWER_SERVICE);
-		WakeLock wakeLock = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "PebbleProxyIntentService");
-		wakeLock.acquire();
+		wakelock = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "PebbleProxyIntentService");
+		wakelock.acquire();
+
+		waitForLocation = false;
 
 		try {
 			PebbleDictionary pebbleDictionary = PebbleDictionary.fromJson(data);
-			PebbleDictionary responseDictionary = new PebbleDictionary();
+			responseDictionary = new PebbleDictionary();
 
 			// http request
 			if (pebbleDictionary.getString(HTTP_URL_KEY) != null) {
@@ -130,7 +149,10 @@ public class PebbleProxyIntentService extends IntentService {
 			}
 			// location information
 			else if (pebbleDictionary.getUnsignedInteger(HTTP_LOCATION_KEY) != null) {
+				waitForLocation = true;
 
+				mLocationClient = new LocationClient(this, this, this);
+				mLocationClient.connect();
 			}
 			// setting entries in key-value store
 			else if (pebbleDictionary.getInteger(HTTP_COOKIE_STORE_KEY) != null) {
@@ -227,14 +249,51 @@ public class PebbleProxyIntentService extends IntentService {
 				responseDictionary.addUint32(HTTP_APP_ID_KEY, (int) httpAppIdKey);
 			}
 
-			if (responseDictionary.size() > 0)
-				PebbleKit.sendDataToPebble(this, (UUID) intent.getSerializableExtra(APP_UUID), responseDictionary);
+			if (responseDictionary.size() > 0 && !waitForLocation)
+				PebbleKit.sendDataToPebble(this, appUUID, responseDictionary);
 
 		} catch (JSONException e) {
 			Log.w("Pebble", "JSONException: " + e.getMessage());
 		}
 
-		wakeLock.release();
+		if (!waitForLocation)
+			wakelock.release();
+	}
+
+	@Override
+	public void onConnected(Bundle dataBundle) {
+		Location location = mLocationClient.getLastLocation();
+		mLocationClient.disconnect();
+
+		responseDictionary.addInt32(HTTP_LOCATION_KEY,
+				Integer.parseInt(Integer.toBinaryString(Float.floatToRawIntBits(location.getAccuracy()))));
+		responseDictionary.addInt32(HTTP_LATITUDE_KEY,
+				Integer.parseInt(Integer.toBinaryString((int) Double.doubleToRawLongBits(location.getLatitude()))));
+		responseDictionary.addInt32(HTTP_LONGITUDE_KEY,
+				Integer.parseInt(Integer.toBinaryString((int) Double.doubleToRawLongBits(location.getLongitude()))));
+		responseDictionary.addInt32(HTTP_ALTITUDE_KEY,
+				Integer.parseInt(Integer.toBinaryString((int) Double.doubleToRawLongBits(location.getAltitude()))));
+
+		PebbleKit.sendDataToPebble(this, appUUID, responseDictionary);
+
+		if (wakelock.isHeld())
+			wakelock.release();
+	}
+
+	@Override
+	public void onConnectionFailed(ConnectionResult connectionResult) {
+		PebbleKit.sendDataToPebble(this, appUUID, responseDictionary);
+
+		if (wakelock.isHeld())
+			wakelock.release();
+	}
+
+	@Override
+	public void onDisconnected() {
+		PebbleKit.sendDataToPebble(this, appUUID, responseDictionary);
+
+		if (wakelock.isHeld())
+			wakelock.release();
 	}
 
 }
