@@ -18,6 +18,8 @@ public class Httpebble extends FragmentActivity {
 
 	@Override
 	protected void onResume() {
+		super.onResume();
+
 		// Check that Google Play services is available
 		int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 
