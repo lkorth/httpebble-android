@@ -122,20 +122,23 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 					else if (value instanceof JSONArray) {
 						JSONArray arr = (JSONArray) value;
 						String width = (String) arr.get(0);
-						int val = (Integer) arr.get(1);
+						Object val = arr.get(1);
 
 						if (width.equals("b"))
-							responseDictionary.addInt8(Integer.parseInt(key), (byte) val);
+							responseDictionary.addInt8(Integer.parseInt(key), (byte) (int) (Integer) val);
 						else if (width.equals("B"))
-							responseDictionary.addUint8(Integer.parseInt(key), (byte) val);
+							responseDictionary.addUint8(Integer.parseInt(key), (byte) (int) (Integer) val);
 						else if (width.equals("s"))
-							responseDictionary.addInt16(Integer.parseInt(key), (short) val);
+							responseDictionary.addInt16(Integer.parseInt(key), (short) (int) (Integer) val);
 						else if (width.equals("S"))
-							responseDictionary.addUint16(Integer.parseInt(key), (short) val);
+							responseDictionary.addUint16(Integer.parseInt(key), (short) (int) (Integer) val);
 						else if (width.equals("i"))
-							responseDictionary.addInt32(Integer.parseInt(key), val);
+							responseDictionary.addInt32(Integer.parseInt(key), (Integer) val);
 						else if (width.equals("I"))
-							responseDictionary.addUint32(Integer.parseInt(key), val);
+							responseDictionary.addUint32(Integer.parseInt(key), (Integer) val);
+						else if (width.equals("d"))
+							responseDictionary.addBytes(Integer.parseInt(key),
+									Base64.decode((String) val, Base64.DEFAULT));
 					}
 				}
 
