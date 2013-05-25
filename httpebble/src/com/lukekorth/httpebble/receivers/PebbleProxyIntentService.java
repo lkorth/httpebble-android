@@ -105,6 +105,8 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 						.header("X-PEBBLE-ID", getSharedPreferences(HTTPEBBLE, 0).getString(PEBBLE_ADDRESS, ""))
 						.send(pebbleDictionary.toJsonString());
 
+				Log.d("httpebble", "Server request: " + pebbleDictionary.toJsonString());
+
 				String responseString = response.body();
 
 				Log.d("httpebble", "Server response: " + responseString);
