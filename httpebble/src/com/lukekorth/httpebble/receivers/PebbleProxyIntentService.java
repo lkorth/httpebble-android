@@ -274,14 +274,10 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		Location location = mLocationClient.getLastLocation();
 		mLocationClient.disconnect();
 
-		responseDictionary.addInt32(HTTP_LOCATION_KEY,
-				Integer.parseInt(Integer.toBinaryString(Float.floatToRawIntBits(location.getAccuracy()))));
-		responseDictionary.addInt32(HTTP_LATITUDE_KEY,
-				Integer.parseInt(Integer.toBinaryString((int) Double.doubleToRawLongBits(location.getLatitude()))));
-		responseDictionary.addInt32(HTTP_LONGITUDE_KEY,
-				Integer.parseInt(Integer.toBinaryString((int) Double.doubleToRawLongBits(location.getLongitude()))));
-		responseDictionary.addInt32(HTTP_ALTITUDE_KEY,
-				Integer.parseInt(Integer.toBinaryString((int) Double.doubleToRawLongBits(location.getAltitude()))));
+		responseDictionary.addInt32(HTTP_LOCATION_KEY, Float.floatToRawIntBits(location.getAccuracy()));
+		responseDictionary.addInt32(HTTP_LATITUDE_KEY, (int) Double.doubleToRawLongBits(location.getLatitude()));
+		responseDictionary.addInt32(HTTP_LONGITUDE_KEY, (int) Double.doubleToRawLongBits(location.getLongitude()));
+		responseDictionary.addInt32(HTTP_ALTITUDE_KEY, (int) Double.doubleToRawLongBits(location.getAltitude()));
 
 		Log.d("httpebble", "Data sent to Pebble: " + responseDictionary.toJsonString());
 
