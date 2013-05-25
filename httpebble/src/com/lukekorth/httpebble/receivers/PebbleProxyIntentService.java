@@ -101,11 +101,16 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 
 				pebbleDictionary.remove(HTTP_APP_ID_KEY);
 
+				JSONObject request = new JSONObject();
+				for (PebbleTuple tup : pebbleDictionary) {
+					request.put(Integer.toString(tup.key), tup.value);
+				}
+
 				HttpRequest response = HttpRequest.post(url).contentType("application/json")
 						.header("X-PEBBLE-ID", getSharedPreferences(HTTPEBBLE, 0).getString(PEBBLE_ADDRESS, ""))
-						.send(pebbleDictionary.toJsonString());
+						.send(request.toString());
 
-				Log.d("httpebble", "Server request: " + pebbleDictionary.toJsonString());
+				Log.d("httpebble", "Server request: " + request.toString());
 
 				String responseString = response.body();
 
