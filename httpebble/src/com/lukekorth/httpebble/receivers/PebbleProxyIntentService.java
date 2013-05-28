@@ -49,6 +49,7 @@ import com.getpebble.android.kit.PebbleKit;
 import com.getpebble.android.kit.util.PebbleDictionary;
 import com.getpebble.android.kit.util.PebbleTuple;
 import com.github.kevinsawicki.http.HttpRequest;
+import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
@@ -106,51 +107,67 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 					request.put(Integer.toString(tup.key), tup.value);
 				}
 
-				HttpRequest response = HttpRequest.post(url).contentType("application/json")
-						.header("X-PEBBLE-ID", getSharedPreferences(HTTPEBBLE, 0).getString(PEBBLE_ADDRESS, ""))
-						.send(request.toString());
+				Log.d(HTTPEBBLE, "Server request: " + request.toString());
 
-				Log.d("httpebble", "Server request: " + request.toString());
+				int responseCode;
+				boolean responseOk;
+				try {
+					HttpRequest response = HttpRequest.post(url).contentType("application/json")
+							.header("X-PEBBLE-ID", getSharedPreferences(HTTPEBBLE, 0).getString(PEBBLE_ADDRESS, ""))
+							.send(request.toString());
 
-				String responseString = response.body();
+					String responseString = response.body();
+					responseCode = response.code();
+					responseOk = response.ok();
 
-				Log.d("httpebble", "Server response: " + responseString);
+					Log.d(HTTPEBBLE, "Server response: " + responseString);
 
-				JSONObject json = new JSONObject(responseString);
-				Iterator<String> keys = json.keys();
-				while (keys.hasNext()) {
-					String key = keys.next();
-					Object value = json.get(key);
+					JSONObject json = new JSONObject(responseString);
+					Iterator<String> keys = json.keys();
+					while (keys.hasNext()) {
+						String key = keys.next();
+						Object value = json.get(key);
 
-					if (value instanceof String)
-						responseDictionary.addString(Integer.parseInt(key), (String) value);
-					else if (value instanceof Integer)
-						responseDictionary.addInt32(Integer.parseInt(key), (Integer) value);
-					else if (value instanceof JSONArray) {
-						JSONArray arr = (JSONArray) value;
-						String width = (String) arr.get(0);
-						Object val = arr.get(1);
+						if (value instanceof String)
+							responseDictionary.addString(Integer.parseInt(key), (String) value);
+						else if (value instanceof Integer)
+							responseDictionary.addInt32(Integer.parseInt(key), (Integer) value);
+						else if (value instanceof JSONArray) {
+							JSONArray arr = (JSONArray) value;
+							String width = (String) arr.get(0);
+							Object val = arr.get(1);
 
-						if (width.equals("b"))
-							responseDictionary.addInt8(Integer.parseInt(key), (byte) (int) (Integer) val);
-						else if (width.equals("B"))
-							responseDictionary.addUint8(Integer.parseInt(key), (byte) (int) (Integer) val);
-						else if (width.equals("s"))
-							responseDictionary.addInt16(Integer.parseInt(key), (short) (int) (Integer) val);
-						else if (width.equals("S"))
-							responseDictionary.addUint16(Integer.parseInt(key), (short) (int) (Integer) val);
-						else if (width.equals("i"))
-							responseDictionary.addInt32(Integer.parseInt(key), (Integer) val);
-						else if (width.equals("I"))
-							responseDictionary.addUint32(Integer.parseInt(key), (Integer) val);
-						else if (width.equals("d"))
-							responseDictionary.addBytes(Integer.parseInt(key),
-									Base64.decode((String) val, Base64.DEFAULT));
+							if (width.equals("b"))
+								responseDictionary.addInt8(Integer.parseInt(key), (byte) (int) (Integer) val);
+							else if (width.equals("B"))
+								responseDictionary.addUint8(Integer.parseInt(key), (byte) (int) (Integer) val);
+							else if (width.equals("s"))
+								responseDictionary.addInt16(Integer.parseInt(key), (short) (int) (Integer) val);
+							else if (width.equals("S"))
+								responseDictionary.addUint16(Integer.parseInt(key), (short) (int) (Integer) val);
+							else if (width.equals("i"))
+								responseDictionary.addInt32(Integer.parseInt(key), (Integer) val);
+							else if (width.equals("I"))
+								responseDictionary.addUint32(Integer.parseInt(key), (Integer) val);
+							else if (width.equals("d"))
+								responseDictionary.addBytes(Integer.parseInt(key),
+										Base64.decode((String) val, Base64.DEFAULT));
+						}
 					}
+				} catch (HttpRequestException e) {
+					Log.w(HTTPEBBLE, "HttpResponseException: " + e);
+
+					responseCode = 500;
+					responseOk = false;
+				} catch (NumberFormatException e) {
+					Log.w(HTTPEBBLE, "NumberFormatException: " + e);
+
+					responseCode = 500;
+					responseOk = false;
 				}
 
-				responseDictionary.addInt16(HTTP_STATUS_KEY, (short) response.code());
-				responseDictionary.addInt8(HTTP_URL_KEY, (byte) ((response.ok()) ? 1 : 0));
+				responseDictionary.addInt16(HTTP_STATUS_KEY, (short) responseCode);
+				responseDictionary.addInt8(HTTP_URL_KEY, (byte) ((responseOk) ? 1 : 0));
 				responseDictionary.addInt32(HTTP_REQUEST_ID_KEY, (int) requestIdKey);
 				responseDictionary.addInt32(HTTP_APP_ID_KEY, (int) appIdKey);
 			}
