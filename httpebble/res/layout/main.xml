@@ -17,10 +17,20 @@
         android:textSize="18sp" />
     
     <TextView
-        android:id="@+id/info"
+        android:id="@+id/getStarted"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/welcome"
+        android:layout_marginTop="10dp"
+        android:autoLink="web"
+        android:text="@string/getStarted"
+        android:textSize="18sp" />
+    
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/getStarted"
         android:layout_marginTop="10dp"
         android:autoLink="web"
         android:text="@string/info"
