@@ -74,7 +74,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		String data = intent.getStringExtra(MSG_DATA);
 		appUUID = (UUID) intent.getSerializableExtra(APP_UUID);
 
-		Log.d("httpebble", "Request from Pebble: " + data);
+		Log.d(HTTPEBBLE, "Request from Pebble: " + data);
 
 		PowerManager mgr = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		wakelock = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "PebbleProxyIntentService");
@@ -283,7 +283,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 			}
 
 			if (responseDictionary.size() > 0 && !waitForLocation) {
-				Log.d("httpebble", "Data sent to Pebble: " + responseDictionary.toJsonString());
+				Log.d(HTTPEBBLE, "Data sent to Pebble: " + responseDictionary.toJsonString());
 
 				PebbleKit.sendDataToPebble(this, appUUID, responseDictionary);
 			}
@@ -301,7 +301,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		Location location = mLocationClient.getLastLocation();
 		mLocationClient.disconnect();
 
-		Log.d("httpebble", "Location accuracy: " + location.getAccuracy() + " latitude: " + location.getLatitude()
+		Log.d(HTTPEBBLE, "Location accuracy: " + location.getAccuracy() + " latitude: " + location.getLatitude()
 				+ " longitude: " + location.getLongitude() + " altitude: " + location.getAltitude());
 
 		responseDictionary.addInt32(HTTP_LOCATION_KEY, Float.floatToIntBits(location.getAccuracy()));
@@ -309,7 +309,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		responseDictionary.addInt32(HTTP_LONGITUDE_KEY, Float.floatToIntBits((float) location.getLongitude()));
 		responseDictionary.addInt32(HTTP_ALTITUDE_KEY, Float.floatToIntBits((float) location.getAltitude()));
 
-		Log.d("httpebble", "Data sent to Pebble: " + responseDictionary.toJsonString());
+		Log.d(HTTPEBBLE, "Data sent to Pebble: " + responseDictionary.toJsonString());
 
 		PebbleKit.sendDataToPebble(this, appUUID, responseDictionary);
 
@@ -319,7 +319,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 
 	@Override
 	public void onConnectionFailed(ConnectionResult connectionResult) {
-		Log.d("httpebble", "Data sent to Pebble: " + responseDictionary.toJsonString());
+		Log.d(HTTPEBBLE, "Data sent to Pebble: " + responseDictionary.toJsonString());
 
 		PebbleKit.sendDataToPebble(this, appUUID, responseDictionary);
 
@@ -329,7 +329,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 
 	@Override
 	public void onDisconnected() {
-		Log.d("httpebble", "Data sent to Pebble: " + responseDictionary.toJsonString());
+		Log.d(HTTPEBBLE, "Data sent to Pebble: " + responseDictionary.toJsonString());
 
 		PebbleKit.sendDataToPebble(this, appUUID, responseDictionary);
 
