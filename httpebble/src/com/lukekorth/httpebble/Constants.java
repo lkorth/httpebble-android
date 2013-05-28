@@ -1,14 +1,12 @@
 package com.lukekorth.httpebble;
 
-import java.util.UUID;
-
 public class Constants {
 
 	public static final String HTTPEBBLE = "httpebble";
 
 	public static final String PEBBLE_ADDRESS = "address";
 
-	public static final UUID HTTPEBBLE_UUID = UUID.fromString("9141B628-BC89-498E-B147-049F49C099AD");
+	public static final String HTTPEBBLE_UUID_PREFIX = "9141B628-BC89-498E-B147";
 
 	public static final int HTTP_URL_KEY = 0xFFFF; // a URL to request
 	public static final int HTTP_STATUS_KEY = 0xFFFE; // the HTTP status code
