@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.text.method.LinkMovementMethod;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -14,6 +16,10 @@ public class Httpebble extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+
+		((TextView) findViewById(R.id.getStarted)).setMovementMethod(LinkMovementMethod.getInstance());
+		((TextView) findViewById(R.id.info)).setMovementMethod(LinkMovementMethod.getInstance());
+		((TextView) findViewById(R.id.source)).setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
 	@Override
