@@ -301,13 +301,17 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		Location location = mLocationClient.getLastLocation();
 		mLocationClient.disconnect();
 
-		Log.d(HTTPEBBLE, "Location accuracy: " + location.getAccuracy() + " latitude: " + location.getLatitude()
-				+ " longitude: " + location.getLongitude() + " altitude: " + location.getAltitude());
+		if (location != null) {
+			Log.d(HTTPEBBLE, "Location accuracy: " + location.getAccuracy() + " latitude: " + location.getLatitude()
+					+ " longitude: " + location.getLongitude() + " altitude: " + location.getAltitude());
 
-		responseDictionary.addInt32(HTTP_LOCATION_KEY, Float.floatToIntBits(location.getAccuracy()));
-		responseDictionary.addInt32(HTTP_LATITUDE_KEY, Float.floatToIntBits((float) location.getLatitude()));
-		responseDictionary.addInt32(HTTP_LONGITUDE_KEY, Float.floatToIntBits((float) location.getLongitude()));
-		responseDictionary.addInt32(HTTP_ALTITUDE_KEY, Float.floatToIntBits((float) location.getAltitude()));
+			responseDictionary.addInt32(HTTP_LOCATION_KEY, Float.floatToIntBits(location.getAccuracy()));
+			responseDictionary.addInt32(HTTP_LATITUDE_KEY, Float.floatToIntBits((float) location.getLatitude()));
+			responseDictionary.addInt32(HTTP_LONGITUDE_KEY, Float.floatToIntBits((float) location.getLongitude()));
+			responseDictionary.addInt32(HTTP_ALTITUDE_KEY, Float.floatToIntBits((float) location.getAltitude()));
+		} else {
+			Log.w(HTTPEBBLE, "Location was null!");
+		}
 
 		Log.d(HTTPEBBLE, "Data sent to Pebble: " + responseDictionary.toJsonString());
 
