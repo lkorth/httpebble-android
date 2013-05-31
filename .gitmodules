@@ -2,3 +2,6 @@
 	path = pebblekit
 	url = https://github.com/lkorth/pebblekit.git
 	ignore = dirty
+[submodule "ActionBarSherlock"]
+	path = ActionBarSherlock
+	url = https://github.com/JakeWharton/ActionBarSherlock.git
