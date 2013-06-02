@@ -3,6 +3,7 @@ package com.lukekorth.httpebble;
 public class Constants {
 
 	public static final String HTTPEBBLE = "httpebble";
+	public static final String URL = "https://httpebble.com/";
 
 	public static final String PEBBLE_ADDRESS = "address";
 

@@ -27,6 +27,10 @@
             </intent-filter>
         </activity>
         
+        <activity android:name=".WatchFaceList"
+            android:label="Watch Faces"
+            android:icon="@drawable/icon" />
+        
         <receiver android:name=".receivers.PebbleDataReceiver"
             android:exported="true">
             <intent-filter>

@@ -1,16 +1,22 @@
 package com.lukekorth.httpebble;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.text.method.LinkMovementMethod;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
-public class Httpebble extends FragmentActivity {
+public class Httpebble extends SherlockFragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +24,13 @@ public class Httpebble extends FragmentActivity {
 		setContentView(R.layout.main);
 
 		((TextView) findViewById(R.id.getStarted)).setMovementMethod(LinkMovementMethod.getInstance());
+		((TextView) findViewById(R.id.getStarted)).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(Httpebble.this, WatchFaceList.class));
+			}
+		});
+
 		((TextView) findViewById(R.id.info)).setMovementMethod(LinkMovementMethod.getInstance());
 		((TextView) findViewById(R.id.source)).setMovementMethod(LinkMovementMethod.getInstance());
 	}
@@ -46,6 +59,20 @@ public class Httpebble extends FragmentActivity {
 				errorFragment.show(getSupportFragmentManager(), "Location Updates");
 			}
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add("Watch Faces").setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				startActivity(new Intent(Httpebble.this, WatchFaceList.class));
+
+				return true;
+			}
+		}).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+
+		return true;
 	}
 
 	// Define a DialogFragment that displays the error dialog
