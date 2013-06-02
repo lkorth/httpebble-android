@@ -113,7 +113,8 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 				boolean responseOk;
 				try {
 					HttpRequest response = HttpRequest.post(url).contentType("application/json")
-							.header("X-PEBBLE-ID", getSharedPreferences(HTTPEBBLE, 0).getString(PEBBLE_ADDRESS, ""))
+							.header("X-PEBBLE-ID",
+									getSharedPreferences(HTTPEBBLE, MODE_PRIVATE).getString(PEBBLE_ADDRESS, ""))
 							.send(request.toString());
 
 					String responseString = response.body();
@@ -198,7 +199,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 				responseDictionary.addUint32(HTTP_APP_ID_KEY, (int) httpAppIdKey);
 				pebbleDictionary.remove(HTTP_APP_ID_KEY);
 
-				SharedPreferences sharedPrefs = getSharedPreferences(appKey, 0);
+				SharedPreferences sharedPrefs = getSharedPreferences(appKey, MODE_PRIVATE);
 				Editor editor = sharedPrefs.edit();
 				for(PebbleTuple tuple : pebbleDictionary) {
 					editor.putString(Integer.toString(tuple.key), PebbleDictionary.serializeTuple(tuple).toString());
@@ -216,7 +217,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 				responseDictionary.addUint32(HTTP_APP_ID_KEY, (int) httpAppIdKey);
 				pebbleDictionary.remove(HTTP_APP_ID_KEY);
 
-				SharedPreferences sharedPrefs = getSharedPreferences(appKey, 0);
+				SharedPreferences sharedPrefs = getSharedPreferences(appKey, MODE_PRIVATE);
 				for (PebbleTuple tuple : pebbleDictionary) {
 					String storedTuple = sharedPrefs.getString(Integer.toString(tuple.key), null);
 
@@ -267,7 +268,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 				responseDictionary.addUint32(HTTP_APP_ID_KEY, (int) httpAppIdKey);
 				pebbleDictionary.remove(HTTP_APP_ID_KEY);
 
-				SharedPreferences sharedPrefs = getSharedPreferences(appKey, 0);
+				SharedPreferences sharedPrefs = getSharedPreferences(appKey, MODE_PRIVATE);
 				Editor editor = sharedPrefs.edit();
 				for (PebbleTuple tuple : pebbleDictionary) {
 					editor.putString(Integer.toString(tuple.key), null);
