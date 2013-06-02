@@ -23,10 +23,15 @@ public class PebbleDataReceiver extends BroadcastReceiver {
 		Log.d(Constants.HTTPEBBLE, "Pebble Request UUID: " + uuid);
 
 		if (uuid.startsWith(Constants.HTTPEBBLE_UUID_PREFIX)) {
-			PebbleKit.sendAckToPebble(context, intent.getIntExtra(TRANSACTION_ID, -1));
-
+			int transactionId = intent.getIntExtra(TRANSACTION_ID, -1);
 			String data = intent.getStringExtra(MSG_DATA);
-			if (data != null && data.length() != 0) {
+
+			Log.d(Constants.HTTPEBBLE, "Pebble transaction id: " + transactionId);
+			Log.d(Constants.HTTPEBBLE, "Request data: " + data);
+
+			if (transactionId >= 0 && transactionId <= 255 && data != null && data.length() != 0) {
+				PebbleKit.sendAckToPebble(context, transactionId);
+
 				Intent serviceIntent = new Intent(context, PebbleProxyIntentService.class);
 				serviceIntent.putExtras(intent.getExtras());
 
