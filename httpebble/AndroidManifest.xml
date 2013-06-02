@@ -39,7 +39,8 @@
         
         <activity android:name=".CloudAccess"
             android:label="Cloud Access"
-            android:icon="@drawable/icon" />
+            android:icon="@drawable/icon"
+            android:windowSoftInputMode="stateHidden" />
         
         <receiver android:name=".receivers.PebbleDataReceiver"
             android:exported="true">
