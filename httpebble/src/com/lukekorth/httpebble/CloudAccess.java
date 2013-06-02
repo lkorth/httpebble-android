@@ -33,6 +33,8 @@ public class CloudAccess extends SherlockActivity {
 			((EditText) findViewById(R.id.userId)).setText(userId);
 			((EditText) findViewById(R.id.userId)).setFocusable(false);
 		}
+
+		((EditText) findViewById(R.id.userToken)).setText(mPrefs.getString("userToken", ""));
 	}
 
 	public void save(View v) {
