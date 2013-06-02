@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 import com.github.kevinsawicki.http.HttpRequest;
@@ -46,11 +47,14 @@ public class RegisterIntentService extends WakefulIntentService {
 
 		int code;
 		try {
-			HttpRequest response = HttpRequest.post(Constants.URL + "register").send(data.toString());
+			HttpRequest response = HttpRequest.post(Constants.URL + "register").send("data=" + data.toString());
 			code = response.code();
 		} catch (HttpRequestException e) {
 			code = 400;
 		}
+
+		Log.d(Constants.HTTPEBBLE, "Cloud Access registration request: " + data.toString());
+		Log.d(Constants.HTTPEBBLE, "Cloud Access registration response code: " + code);
 
 		if (code == 200)
 			prefs.edit().putBoolean("needToRegister", false).commit();
