@@ -23,7 +23,6 @@ public class Httpebble extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		((TextView) findViewById(R.id.getStarted)).setMovementMethod(LinkMovementMethod.getInstance());
 		((TextView) findViewById(R.id.getStarted)).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

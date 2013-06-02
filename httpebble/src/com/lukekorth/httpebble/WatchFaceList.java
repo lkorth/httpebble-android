@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.webkit.WebView;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 public class WatchFaceList extends SherlockActivity {
 
@@ -17,4 +18,14 @@ public class WatchFaceList extends SherlockActivity {
 		((WebView) findViewById(R.id.webview)).loadUrl(Constants.URL + "watchfaces");
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 }
