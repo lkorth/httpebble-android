@@ -11,6 +11,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    
+    <!-- GCM permissions -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.lukekorth.httpebble.permission.C2D_MESSAGE" />
+    <permission android:name="com.lukekorth.httpebble.permission.C2D_MESSAGE" android:protectionLevel="signature" />
 
     <application
         android:allowBackup="true"
@@ -31,6 +37,10 @@
             android:label="Watch Faces"
             android:icon="@drawable/icon" />
         
+        <activity android:name=".CloudAccess"
+            android:label="Cloud Access"
+            android:icon="@drawable/icon" />
+        
         <receiver android:name=".receivers.PebbleDataReceiver"
             android:exported="true">
             <intent-filter>
@@ -45,7 +55,23 @@
             </intent-filter>
         </receiver>
         
+        <receiver android:name=".receivers.NetworkBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        
+        <receiver android:name="com.google.android.gcm.GCMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND" >
+			<intent-filter>
+				<action android:name="com.google.android.c2dm.intent.RECEIVE" />
+				<action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+				<category android:name="com.lukekorth.httpebble" />
+			</intent-filter>
+		</receiver>
+        
         <service android:name=".receivers.PebbleProxyIntentService" />
+        <service android:name=".GCMIntentService" />
+        <service android:name=".RegisterIntentService" />
         
     </application>
 

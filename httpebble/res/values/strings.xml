@@ -12,5 +12,13 @@
         in the <a href="http://forums.getpebble.com/">Pebble forums</a>. 	</string>
     <string name="source">The source code can be found on 		<a href="https://github.com/lkorth/httpebble-android">GitHub</a>.
 	</string>
+	
+    <string name="explanation">Cloud Access allows your Pebble to receive notifications and data from the Internet. Your Pebble can 
+        be used as a channel on <a href="https://ifttt.com/">If This Then That</a> or you can use the API to integrate with just about
+        anything else. For more information please see the <a href="">documentation</a>.</string>
+        
+    <string name="auth">These are your user id and user tokens. They are used to send data to your Pebble, anyone with your id and
+        token can send data to your Pebble, so keep them safe. Your user id may only be set once, so choose carefully. 
+        Changing your token at anytime will invalidate you previous token and not allow it to send data to your Pebble.</string>
 
 </resources>

@@ -5,10 +5,11 @@ public class Constants {
 	public static final String HTTPEBBLE = "httpebble";
 	public static final String URL = "https://httpebble.com/";
 
+	public static final String GCM_ID = "444472151507";
+
 	public static final String PEBBLE_ADDRESS = "address";
 
 	public static final String HTTPEBBLE_UUID_PREFIX = "9141B628-BC89-498E-B147";
-
 	public static final int HTTP_URL_KEY = 0xFFFF; // a URL to request
 	public static final int HTTP_STATUS_KEY = 0xFFFE; // the HTTP status code
 	public static final int HTTP_REQUEST_ID_KEY = 0xFFFC; // the request ID specified by the user to return (HTTP requests only)

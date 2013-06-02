@@ -62,6 +62,16 @@ public class Httpebble extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add("Cloud Access")
+		.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				startActivity(new Intent(Httpebble.this, CloudAccess.class));
+
+				return true;
+			}
+		}).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
 		menu.add("Watch Faces").setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
@@ -97,4 +107,5 @@ public class Httpebble extends SherlockFragmentActivity {
 			return mDialog;
 		}
 	}
+
 }
