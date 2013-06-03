@@ -28,12 +28,7 @@ public class CloudAccess extends SherlockActivity {
 
 		mPrefs = getSharedPreferences(Constants.HTTPEBBLE, MODE_PRIVATE);
 
-		String userId = mPrefs.getString("userId", "");
-		if (!userId.equals("")) {
-			((EditText) findViewById(R.id.userId)).setText(userId);
-			((EditText) findViewById(R.id.userId)).setFocusable(false);
-		}
-
+		((EditText) findViewById(R.id.userId)).setText(mPrefs.getString("userId", ""));
 		((EditText) findViewById(R.id.userToken)).setText(mPrefs.getString("userToken", ""));
 	}
 
