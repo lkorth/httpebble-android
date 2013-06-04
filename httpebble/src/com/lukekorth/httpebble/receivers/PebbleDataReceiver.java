@@ -4,7 +4,6 @@ import static com.getpebble.android.kit.Constants.APP_UUID;
 import static com.getpebble.android.kit.Constants.MSG_DATA;
 import static com.getpebble.android.kit.Constants.TRANSACTION_ID;
 
-import java.lang.Integer;
 import java.util.UUID;
 
 import android.content.BroadcastReceiver;
@@ -44,10 +43,8 @@ public class PebbleDataReceiver extends BroadcastReceiver {
 				serviceIntent.putExtras(intent.getExtras());
 
 				context.startService(serviceIntent);
-			}
-			else
-			{
-				Log.d("Transaction Id out of range, or no data");
+			} else {
+				Log.d(Constants.HTTPEBBLE, "Transaction Id out of range, or no data");
 			}
 		}
 	}
