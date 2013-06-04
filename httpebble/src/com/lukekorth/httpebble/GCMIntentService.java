@@ -15,6 +15,10 @@ import android.util.Log;
 import com.google.android.gcm.GCMBaseIntentService;
 
 public class GCMIntentService extends GCMBaseIntentService {
+	
+	public GCMIntentService() {
+		super(Constants.GCM_ID);
+	}
 
 	@Override
 	protected void onError(Context context, String errorId) {
