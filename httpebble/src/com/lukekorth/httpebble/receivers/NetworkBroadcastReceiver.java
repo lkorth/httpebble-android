@@ -19,10 +19,13 @@ public class NetworkBroadcastReceiver extends BroadcastReceiver {
 			NetworkInfo info = intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
 			boolean available = info.isAvailable();
 			if (available) {
-				boolean needToRegister = context.getSharedPreferences(Constants.HTTPEBBLE, Context.MODE_PRIVATE)
-						.getBoolean("needToRegister", true);
+				SharedPreferences prefs = context.getSharedPreferences(Constants.HTTPEBBLE, Context.MODE_PRIVATE);
+				
+				boolean needToRegister = prefs.getBoolean("needToRegister", true);
+				String userId = prefs.getString("userId", "");
+				String userToken = prefs.getString("userToken", "");
 
-				if (needToRegister)
+				if (needToRegister && !userId.equals("") && !userToken.equals(""))
 					WakefulIntentService.sendWakefulWork(context, RegisterIntentService.class);
 			}
 		}
