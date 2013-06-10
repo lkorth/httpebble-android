@@ -276,7 +276,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 				editor.commit();
 			}
 			// fsync
-			else if (pebbleDictionary.getUnsignedInteger(HTTP_COOKIE_LOAD_KEY) != null) {
+			else if (pebbleDictionary.getUnsignedInteger(HTTP_COOKIE_FSYNC_KEY) != null) {
 				responseDictionary.addUint8(HTTP_COOKIE_LOAD_KEY, (byte) 1);
 
 				long httpAppIdKey = pebbleDictionary.getInteger(HTTP_APP_ID_KEY);
