@@ -30,6 +30,13 @@ public class Httpebble extends SherlockFragmentActivity {
 			}
 		});
 
+		((TextView) findViewById(R.id.notifications)).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(Httpebble.this, CloudAccess.class));
+			}
+		});
+
 		((TextView) findViewById(R.id.info)).setMovementMethod(LinkMovementMethod.getInstance());
 		((TextView) findViewById(R.id.source)).setMovementMethod(LinkMovementMethod.getInstance());
 	}
