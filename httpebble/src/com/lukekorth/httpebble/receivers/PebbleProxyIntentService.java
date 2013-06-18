@@ -10,6 +10,7 @@ import static com.lukekorth.httpebble.Constants.HTTPEBBLE;
 import static com.lukekorth.httpebble.Constants.HTTP_ALTITUDE_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_APP_ID_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_COOKIE_DELETE_KEY;
+import static com.lukekorth.httpebble.Constants.HTTP_COOKIE_FSYNC_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_COOKIE_LOAD_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_COOKIE_STORE_KEY;
 import static com.lukekorth.httpebble.Constants.HTTP_IS_DST_KEY;
@@ -277,7 +278,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 			}
 			// fsync
 			else if (pebbleDictionary.getUnsignedInteger(HTTP_COOKIE_FSYNC_KEY) != null) {
-				responseDictionary.addUint8(HTTP_COOKIE_LOAD_KEY, (byte) 1);
+				responseDictionary.addUint8(HTTP_COOKIE_FSYNC_KEY, (byte) 1);
 
 				long httpAppIdKey = pebbleDictionary.getInteger(HTTP_APP_ID_KEY);
 				responseDictionary.addUint32(HTTP_APP_ID_KEY, (int) httpAppIdKey);
