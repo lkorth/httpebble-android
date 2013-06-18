@@ -77,7 +77,7 @@ public class Httpebble extends SherlockFragmentActivity {
 
 				return true;
 			}
-		}).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		}).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 
 		menu.add("Watch Faces").setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			@Override
@@ -86,7 +86,7 @@ public class Httpebble extends SherlockFragmentActivity {
 
 				return true;
 			}
-		}).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+		}).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
 		return true;
 	}
