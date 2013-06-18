@@ -3,6 +3,7 @@ package com.lukekorth.httpebble.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -20,7 +21,7 @@ public class NetworkBroadcastReceiver extends BroadcastReceiver {
 			boolean available = info.isAvailable();
 			if (available) {
 				SharedPreferences prefs = context.getSharedPreferences(Constants.HTTPEBBLE, Context.MODE_PRIVATE);
-				
+
 				boolean needToRegister = prefs.getBoolean("needToRegister", true);
 				String userId = prefs.getString("userId", "");
 				String userToken = prefs.getString("userToken", "");
