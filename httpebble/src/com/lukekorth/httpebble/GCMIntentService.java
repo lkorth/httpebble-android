@@ -23,7 +23,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	protected void onError(Context context, String errorId) {
 		context.getSharedPreferences(Constants.HTTPEBBLE, MODE_PRIVATE).edit().putBoolean("needToRegister", true)
-		.commit();
+				.commit();
 	}
 
 	@Override
