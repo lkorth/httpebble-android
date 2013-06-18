@@ -23,7 +23,12 @@ public class RegisterIntentService extends WakefulIntentService {
 
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (getSharedPreferences(Constants.HTTPEBBLE, MODE_PRIVATE).getString("gcmId", "").equals("")) {
+		SharedPreferences prefs = getSharedPreferences(Constants.HTTPEBBLE, MODE_PRIVATE);
+
+		if (prefs.getString("userId", "").equals("") || prefs.getString("userToken", "").equals(""))
+			return;
+
+		if (prefs.getString("gcmId", "").equals("")) {
 			try {
 				GoogleCloudMessaging.getInstance(this).register(Constants.GCM_ID);
 			} catch (IOException e) {
@@ -35,6 +40,9 @@ public class RegisterIntentService extends WakefulIntentService {
 
 	public static void register(Context context) {
 		SharedPreferences prefs = context.getSharedPreferences(Constants.HTTPEBBLE, Context.MODE_PRIVATE);
+
+		if (prefs.getString("userId", "").equals("") || prefs.getString("userToken", "").equals(""))
+			return;
 
 		JSONObject data = new JSONObject();
 		try {
