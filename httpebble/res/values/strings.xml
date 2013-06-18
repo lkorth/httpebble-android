@@ -17,7 +17,11 @@
 	
     <string name="explanation">Cloud Access allows your Pebble to receive notifications and data from the Internet. Your Pebble can 
         be used as a channel on <a href="https://ifttt.com/">If This Then That</a> or you can use the API to integrate with just about
-        anything else. For more information please see the <a href="http://lukekorth.com/blog/restful-pebble/">documentation</a>.</string>
+        anything else. For more information please see the <a href="http://lukekorth.com/blog/restful-pebble/">documentation</a>.
+        To use the ifttt channel, you must enable the Wordpress channel with ofkorth.net/pebble as the domain, 
+        your user id as the username and user token as the password. When creating an ifttt recipe, you should select the Wordpress create a post option.
+        The text you enter for the title will appear as the title in the notification on your Pebble and the text entered for the body will appear 
+        as the body of the notification on your Pebble. Categories and tags can be left blank and select publish immediately.</string>
         
     <string name="auth">These are your user id and user tokens. They are used to send data to your Pebble, anyone with your id and
         token can send data to your Pebble, so keep them safe. Please choose something unique for your user id such as your email.
