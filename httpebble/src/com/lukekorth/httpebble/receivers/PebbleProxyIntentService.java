@@ -293,7 +293,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 			Log.w("Pebble", "JSONException: " + e.getMessage());
 		}
 
-		if (!waitForLocation)
+		if (!waitForLocation && wakelock.isHeld())
 			wakelock.release();
 	}
 
