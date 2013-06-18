@@ -115,7 +115,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 					HttpRequest response = HttpRequest.post(url).contentType("application/json")
 							.header("X-PEBBLE-ID",
 									getSharedPreferences(HTTPEBBLE, MODE_PRIVATE).getString(PEBBLE_ADDRESS, ""))
-							.send(request.toString());
+									.send(request.toString());
 
 					String responseString = response.body();
 					responseCode = response.code();
