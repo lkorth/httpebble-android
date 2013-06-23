@@ -75,8 +75,6 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		String data = intent.getStringExtra(MSG_DATA);
 		appUUID = (UUID) intent.getSerializableExtra(APP_UUID);
 
-		Log.d(HTTPEBBLE, "Request from Pebble: " + data);
-
 		PowerManager mgr = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		wakelock = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "PebbleProxyIntentService");
 		wakelock.acquire();
