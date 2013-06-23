@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.android.vending.BILLING" />
     
     <!-- GCM permissions -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -73,6 +74,24 @@
         <service android:name=".receivers.PebbleProxyIntentService" />
         <service android:name=".GCMIntentService" />
         <service android:name=".RegisterIntentService" />
+        
+        <activity
+            android:name="org.donations.DonationsActivity"
+            android:excludeFromRecents="true"
+            android:label="Donations"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Dialog" />
+
+        <!-- - Google Play Store donations -->
+        <service android:name="org.donations.google.BillingService" />
+
+        <receiver android:name="org.donations.google.BillingReceiver" >
+            <intent-filter>
+                <action android:name="com.android.vending.billing.IN_APP_NOTIFY" />
+                <action android:name="com.android.vending.billing.RESPONSE_CODE" />
+                <action android:name="com.android.vending.billing.PURCHASE_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
         
     </application>
 

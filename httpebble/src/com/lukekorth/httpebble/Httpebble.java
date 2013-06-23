@@ -1,5 +1,7 @@
 package com.lukekorth.httpebble;
 
+import org.donations.DonationsActivity;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -69,15 +71,14 @@ public class Httpebble extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("Cloud Access")
-		.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+		menu.add("Donate").setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
-				startActivity(new Intent(Httpebble.this, CloudAccess.class));
+				Httpebble.this.startActivity(new Intent(Httpebble.this, DonationsActivity.class));
 
 				return true;
 			}
-		}).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+		}).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
 		menu.add("Watch Faces").setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			@Override
@@ -86,7 +87,16 @@ public class Httpebble extends SherlockFragmentActivity {
 
 				return true;
 			}
-		}).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		}).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+		menu.add("Cloud Access").setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				startActivity(new Intent(Httpebble.this, CloudAccess.class));
+
+				return true;
+			}
+		}).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 
 		return true;
 	}
