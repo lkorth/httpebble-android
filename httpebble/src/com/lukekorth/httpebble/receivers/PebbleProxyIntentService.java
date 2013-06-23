@@ -121,6 +121,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 					responseOk = response.ok();
 
 					Log.d(HTTPEBBLE, "Server response: " + responseString);
+					Log.d(HTTPEBBLE, "Server response headers: " + response.headers().toString());
 
 					JSONObject json = new JSONObject(responseString);
 					Iterator<String> keys = json.keys();
