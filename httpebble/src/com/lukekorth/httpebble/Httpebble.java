@@ -87,7 +87,7 @@ public class Httpebble extends SherlockFragmentActivity {
 
 				return true;
 			}
-		}).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		}).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 
 		menu.add("Cloud Access").setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			@Override
