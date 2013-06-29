@@ -43,15 +43,20 @@
             android:icon="@drawable/icon"
             android:windowSoftInputMode="stateHidden" />
         
-        <receiver android:name=".receivers.PebbleDataReceiver"
-            android:exported="true">
+        <receiver android:name=".receivers.PebbleDataReceiver">
             <intent-filter>
                 <action android:name="com.getpebble.action.app.RECEIVE" />
             </intent-filter>
         </receiver>
         
-        <receiver android:name=".receivers.PebbleConnectionReceiver"
-            android:exported="true">
+        <receiver android:name=".receivers.PebbleRequestReceiver">
+            <intent-filter>
+                <action android:name="com.getpebble.action.app.RECEIVE_ACK" />
+                <action android:name="com.getpebble.action.app.RECEIVE_NACK" />
+            </intent-filter>
+        </receiver>
+        
+        <receiver android:name=".receivers.PebbleConnectionReceiver">
             <intent-filter>
                 <action android:name="com.getpebble.action.PEBBLE_CONNECTED" />
                 <action android:name="com.getpebble.action.PEBBLE_DISCONNECTED" />
