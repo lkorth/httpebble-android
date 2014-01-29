@@ -6,15 +6,10 @@
     <string name="welcome">Welcome to Pebble Connect with httpebble support, this app allows your Pebble smart watch to communicate with 
         the Internet, access your location, store data and receive notifications. This app does not need to be open or running to be used
         by your Pebble. 	</string>
-	<string name="getStarted">To get started, check out some <a href="https://ofkorth.net/pebble/watchfaces">httpebble watch faces</a>.
-	</string>
 	<string name="notifications">If you would like to get notifications or use IFTTT with your Pebble, 
 	    visit the <a href="http://lukekorth.com/blog/restful-pebble/">Cloud Access</a> section</string>
-    <string name="info">This app uses the <a href="http://kathar.in/httpebble/">httpebble protocol</a>. Further information and support can be found
-        in the <a href="http://forums.getpebble.com/">Pebble forums</a>. 	</string>
-    <string name="source">The source code can be found on 		<a href="https://github.com/lkorth/httpebble-android">GitHub</a>.
-	</string>
-	
+    <string name="support">Further information and support can be found in the <a href="http://forums.getpebble.com/">Pebble forums</a>.</string>
+    <string name="source">The source code can be found on <a href="https://github.com/lkorth/httpebble-android">GitHub</a>.</string>
     <string name="explanation">Cloud Access allows your Pebble to receive notifications and data from the Internet. Your Pebble can 
         be used as a channel on <a href="https://ifttt.com/">If This Then That</a> or you can use the API to integrate with just about
         anything else. For more information please see the <a href="http://lukekorth.com/blog/restful-pebble/">documentation</a>.
@@ -23,8 +18,8 @@
         The text you enter for the title will appear as the title in the notification on your Pebble and the text entered for the body will appear 
         as the body of the notification on your Pebble. Categories and tags can be left blank and select publish immediately.</string>
         
-    <string name="auth">These are your user id and user tokens. They are used to send data to your Pebble, anyone with your id and
-        token can send data to your Pebble, so keep them safe. Please choose something unique for your user id such as your email.
-        Changing your token at anytime will invalidate you previous token and not allow it to send data to your Pebble.</string>
-
+    <string name="auth">These are your user id and user tokens, they are used to send data to your Pebble.
+        You can make up anything to use as your user id and token, please choose something unique for your user id such as your email. 
+        Anyone with your id and token can send data to your Pebble, so keep them safe. Changing your token at anytime will invalidate you previous token 
+        and not allow it to send data to your Pebble.</string>
 </resources>

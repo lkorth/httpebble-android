@@ -10,12 +10,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.util.Log;
 
+import com.commonsware.cwac.wakeful.WakefulIntentService;
 import com.google.android.gcm.GCMBaseIntentService;
 
 public class GCMIntentService extends GCMBaseIntentService {
-	
+
 	public GCMIntentService() {
 		super(Constants.GCM_ID);
 	}
@@ -23,7 +23,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	protected void onError(Context context, String errorId) {
 		context.getSharedPreferences(Constants.HTTPEBBLE, MODE_PRIVATE).edit().putBoolean("needToRegister", true)
-				.commit();
+		.commit();
 	}
 
 	@Override
@@ -40,8 +40,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 			i.putExtra("sender", Constants.HTTPEBBLE);
 			i.putExtra("notificationData", notificationData);
 
-			Log.d(Constants.HTTPEBBLE, "Notification sent to Pebble: " + notificationData);
-
 			context.sendBroadcast(i);
 		}
 	}
@@ -54,7 +52,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		editor.putBoolean("needToRegister", true);
 		editor.commit();
 
-		RegisterIntentService.register(context);
+		WakefulIntentService.sendWakefulWork(context, RegisterIntentService.class);
 	}
 
 	@Override
@@ -65,7 +63,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 		editor.putBoolean("needToRegister", true);
 		editor.commit();
 
-		RegisterIntentService.register(context);
+		WakefulIntentService.sendWakefulWork(context, RegisterIntentService.class);
 	}
-
 }

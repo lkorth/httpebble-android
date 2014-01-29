@@ -9,7 +9,6 @@
         android:targetSdkVersion="17" />
     
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.android.vending.BILLING" />
     
@@ -25,7 +24,7 @@
         android:icon="@drawable/icon"
         android:theme="@style/AppTheme">
         
-        <activity android:name=".Httpebble"
+        <activity android:name=".PebbleConnect"
             android:label="@string/app_name"
             android:icon="@drawable/icon">
             <intent-filter>
@@ -34,34 +33,10 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".WatchFaceList"
-            android:label="Watch Faces"
-            android:icon="@drawable/icon" />
-        
         <activity android:name=".CloudAccess"
             android:label="Cloud Access"
             android:icon="@drawable/icon"
             android:windowSoftInputMode="stateHidden" />
-        
-        <receiver android:name=".receivers.PebbleDataReceiver">
-            <intent-filter>
-                <action android:name="com.getpebble.action.app.RECEIVE" />
-            </intent-filter>
-        </receiver>
-        
-        <receiver android:name=".receivers.PebbleRequestReceiver">
-            <intent-filter>
-                <action android:name="com.getpebble.action.app.RECEIVE_ACK" />
-                <action android:name="com.getpebble.action.app.RECEIVE_NACK" />
-            </intent-filter>
-        </receiver>
-        
-        <receiver android:name=".receivers.PebbleConnectionReceiver">
-            <intent-filter>
-                <action android:name="com.getpebble.action.PEBBLE_CONNECTED" />
-                <action android:name="com.getpebble.action.PEBBLE_DISCONNECTED" />
-            </intent-filter>
-        </receiver>
         
         <receiver android:name=".receivers.NetworkBroadcastReceiver">
             <intent-filter>
@@ -77,7 +52,6 @@
 			</intent-filter>
 		</receiver>
         
-        <service android:name=".receivers.PebbleProxyIntentService" />
         <service android:name=".GCMIntentService" />
         <service android:name=".RegisterIntentService" />
         

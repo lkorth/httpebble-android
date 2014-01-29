@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".Httpebble" >
+    tools:context=".PebbleConnect" >
 
     <TextView
         android:id="@+id/welcome"
@@ -16,19 +16,10 @@
         android:textSize="18sp" />
     
     <TextView
-        android:id="@+id/getStarted"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/welcome"
-        android:layout_marginTop="10dp"
-        android:text="@string/getStarted"
-        android:textSize="18sp" />
-    
-    <TextView
         android:id="@+id/notifications"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/getStarted"
+        android:layout_below="@id/welcome"
         android:layout_marginTop="10dp"
         android:text="@string/notifications"
         android:textSize="18sp" />
@@ -39,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/notifications"
         android:layout_marginTop="10dp"
-        android:text="@string/info"
+        android:text="@string/support"
         android:textSize="18sp" />
     
     <TextView
