@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.lukekorth.httpebble">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+    
+    <!-- GCM permissions -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.lukekorth.httpebble.permission.C2D_MESSAGE" />
+    <permission android:name="com.lukekorth.httpebble.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:icon="@drawable/icon"
+        android:theme="@style/AppTheme">
+        
+        <activity android:name=".PebbleConnect"
+            android:label="@string/app_name"
+            android:icon="@drawable/icon">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity android:name=".CloudAccess"
+            android:label="Cloud Access"
+            android:icon="@drawable/icon"
+            android:windowSoftInputMode="stateHidden" />
+        
+        <receiver android:name=".NetworkBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        
+        <receiver android:name=".GCMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND" >
+			<intent-filter>
+				<action android:name="com.google.android.c2dm.intent.RECEIVE" />
+				<category android:name="com.lukekorth.httpebble" />
+			</intent-filter>
+		</receiver>
+        
+        <service android:name=".RegisterIntentService" />
+    </application>
+</manifest>
