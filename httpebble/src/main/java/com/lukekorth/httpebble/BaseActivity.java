@@ -28,7 +28,8 @@ public class BaseActivity extends SherlockActivity implements IabHelper.OnIabSet
                                 makePurchase();
                             }
                         })
-                        .create();
+                        .create()
+                        .show();
                 return true;
             }
         }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
