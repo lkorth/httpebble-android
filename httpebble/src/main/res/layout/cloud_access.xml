@@ -34,18 +34,18 @@
                 android:id="@+id/userId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ems="10"
                 android:layout_margin="4dp"
-                android:layout_toRightOf="@+id/idLabel"
-                android:ems="10" />
+                android:layout_toRightOf="@+id/tokenLabel" />
 
             <EditText
                 android:id="@+id/userToken"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ems="10"
                 android:layout_below="@+id/userId"
                 android:layout_margin="4dp"
-                android:layout_toRightOf="@+id/tokenLabel"
-                android:ems="10" />
+                android:layout_toRightOf="@+id/tokenLabel" />
 
             <Button
                 android:id="@+id/save"
