@@ -9,11 +9,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.lukekorth.httpebble.util.IabHelper;
 import com.lukekorth.httpebble.util.IabResult;
 
-public class BaseActivity extends SherlockActivity implements IabHelper.OnIabSetupFinishedListener {
-
-	private IabHelper mHelper;
-    private boolean mMakePurchase = false;
-    private String mItem;
+public class BaseActivity extends SherlockActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -24,8 +20,7 @@ public class BaseActivity extends SherlockActivity implements IabHelper.OnIabSet
                         .setTitle("Select a donation amount")
                         .setItems(Constants.DONATION_AMOUNTS, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                mItem = Constants.DONATION_ITEMS[which];
-                                makePurchase();
+                                makePurchase(Constants.DONATION_ITEMS[which]);
                             }
                         })
                         .create()
@@ -37,39 +32,14 @@ public class BaseActivity extends SherlockActivity implements IabHelper.OnIabSet
         return true;
     }
 
-    private void initialize() {
-        disposeHelper();
-        mHelper = new IabHelper(this, getString(R.string.billing_public_key));
-        mHelper.startSetup(this);
-    }
-
-    private void makePurchase() {
-        if(!mMakePurchase) {
-            mMakePurchase = true;
-            initialize();
-        } else {
-            mMakePurchase = false;
-            mHelper.launchPurchaseFlow(this, mItem, 1, null, "donate");
-        }
-    }
-
-	@Override
-	public void onIabSetupFinished(IabResult result) {
-		if(result.isSuccess()) {
-             if(mMakePurchase)
-                makePurchase();
-		}
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		disposeHelper();
-	}
-
-    private void disposeHelper() {
-        if (mHelper != null)
-            mHelper.dispose();
-        mHelper = null;
+    private void makePurchase(final String purchaseItem) {
+        final IabHelper iabHelper = new IabHelper(this, getString(R.string.billing_public_key));
+        iabHelper.enableDebugLogging(true);
+        iabHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+            @Override
+            public void onIabSetupFinished(IabResult result) {
+                iabHelper.launchPurchaseFlow(BaseActivity.this, purchaseItem, 1, null, "donate");
+            }
+        });
     }
 }
