@@ -1,15 +1,15 @@
 package com.lukekorth.httpebble;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.lukekorth.httpebble.util.IabHelper;
 import com.lukekorth.httpebble.util.IabResult;
 
-public class BaseActivity extends SherlockActivity {
+public class BaseActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

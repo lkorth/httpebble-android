@@ -4,12 +4,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.actionbarsherlock.view.MenuItem;
 
 public class CloudAccess extends BaseActivity {
 
@@ -22,8 +21,8 @@ public class CloudAccess extends BaseActivity {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.cloud_access);
 
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayShowHomeEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mPrefs = getSharedPreferences(Constants.HTTPEBBLE, MODE_PRIVATE);
 
