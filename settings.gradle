@@ -1,1 +1,1 @@
-include ':httpebble'
+include 'pebble-connect'
