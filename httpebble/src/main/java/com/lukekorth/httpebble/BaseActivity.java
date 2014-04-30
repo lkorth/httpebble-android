@@ -34,7 +34,6 @@ public class BaseActivity extends SherlockActivity {
 
     private void makePurchase(final String purchaseItem) {
         final IabHelper iabHelper = new IabHelper(this, getString(R.string.billing_public_key));
-        iabHelper.enableDebugLogging(true);
         iabHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
             @Override
             public void onIabSetupFinished(IabResult result) {
