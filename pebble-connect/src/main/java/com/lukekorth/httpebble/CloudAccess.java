@@ -21,8 +21,9 @@ public class CloudAccess extends BaseActivity {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.cloud_access);
 
-        getActionBar().setDisplayShowHomeEnabled(true);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		if (getSupportActionBar() != null) {
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		}
 
 		mPrefs = getSharedPreferences(Constants.HTTPEBBLE, MODE_PRIVATE);
 

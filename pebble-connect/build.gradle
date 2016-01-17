@@ -29,6 +29,7 @@ android {
 
 dependencies {
     compile 'com.google.android.gms:play-services:4.3.23'
+    compile 'com.android.support:appcompat-v7:23.1.1'
 }
 
 // borrowed from https://www.timroes.de/2014/01/19/using-password-prompts-with-gradle-build-files/

@@ -1,15 +1,15 @@
 package com.lukekorth.httpebble;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.lukekorth.httpebble.billing.IabHelper;
 import com.lukekorth.httpebble.billing.IabResult;
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
