@@ -5,7 +5,7 @@
     <string name="cloud_access">Configure Cloud Access</string>
     <string name="donate">Donate</string>
     <string name="welcome">Welcome to Pebble Connect, this app allows your Pebble smart watch to receive notifications from the Internet using IFTTT or an API.</string>
-	<string name="notifications">Once you have setup the app, you can visit the <a href="http://lukekorth.com/blog/restful-pebble/">documentation</a> to learn how to setup IFTTT or use the API</string>
+    <string name="notifications">Once you have setup the app, you can visit the <a href="http://lukekorth.com/blog/restful-pebble/">documentation</a> to learn how to setup IFTTT or use the API</string>
     <string name="source">The source code can be found on <a href="https://github.com/lkorth/httpebble-android">GitHub</a>.</string>
     <string name="explanation">Cloud Access allows your Pebble to receive notifications and data from the Internet.
         Your Pebble can be used as a channel on <a href="https://ifttt.com/">IFTTT</a> or you can use the API to integrate with just about anything else.

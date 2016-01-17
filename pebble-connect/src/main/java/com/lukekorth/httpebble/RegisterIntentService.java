@@ -43,24 +43,24 @@ public class RegisterIntentService extends IntentService {
     }
 
     private void register(SharedPreferences prefs) {
-		JSONObject data = new JSONObject();
-		try {
-			data.put("userId", prefs.getString("userId", ""));
-			data.put("userToken", prefs.getString("userToken", ""));
-			data.put("gcmId", prefs.getString(Constants.REGISTRATION_ID, ""));
-		} catch (JSONException e1) {
-			data = new JSONObject();
-		}
+        JSONObject data = new JSONObject();
+        try {
+            data.put("userId", prefs.getString("userId", ""));
+            data.put("userToken", prefs.getString("userToken", ""));
+            data.put("gcmId", prefs.getString(Constants.REGISTRATION_ID, ""));
+        } catch (JSONException e1) {
+            data = new JSONObject();
+        }
 
-		int code;
-		try {
-			HttpRequest response = HttpRequest.post(Constants.REGISTER_URL).send("data=" + data.toString());
-			code = response.code();
-		} catch (HttpRequestException e) {
-			code = 400;
-		}
+        int code;
+        try {
+            HttpRequest response = HttpRequest.post(Constants.REGISTER_URL).send("data=" + data.toString());
+            code = response.code();
+        } catch (HttpRequestException e) {
+            code = 400;
+        }
 
-		if (code == 200) {
+        if (code == 200) {
             prefs.edit()
                     .putBoolean(Constants.NEED_TO_REGISTER, false)
                     .putInt(Constants.STORED_VERSION, BuildConfig.VERSION_CODE)
@@ -68,5 +68,5 @@ public class RegisterIntentService extends IntentService {
         } else {
             prefs.edit().putBoolean(Constants.NEED_TO_REGISTER, true).apply();
         }
-	}
+    }
 }

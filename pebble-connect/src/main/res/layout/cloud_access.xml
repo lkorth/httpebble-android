@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scrollview"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentLeft="true">
+<ScrollView android:id="@+id/scrollview"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/explanation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:text="@string/explanation" />
+            android:text="@string/explanation"/>
 
         <TextView
             android:id="@+id/auth"
@@ -23,29 +23,29 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:paddingTop="10dp"
-            android:text="@string/auth" />
+            android:text="@string/auth"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp" >
+            android:layout_marginTop="20dp">
 
             <EditText
                 android:id="@+id/userId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
                 android:layout_margin="4dp"
-                android:layout_toRightOf="@+id/tokenLabel" />
+                android:layout_toRightOf="@+id/tokenLabel"
+                android:ems="10"/>
 
             <EditText
                 android:id="@+id/userToken"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
                 android:layout_below="@+id/userId"
                 android:layout_margin="4dp"
-                android:layout_toRightOf="@+id/tokenLabel" />
+                android:layout_toRightOf="@+id/tokenLabel"
+                android:ems="10"/>
 
             <Button
                 android:id="@+id/save"
@@ -55,7 +55,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
                 android:onClick="save"
-                android:text="Save" />
+                android:text="Save"/>
 
             <TextView
                 android:id="@+id/idLabel"
@@ -65,7 +65,7 @@
                 android:layout_alignBottom="@+id/userId"
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="4dp"
-                android:text="User Id" />
+                android:text="User Id"/>
 
             <TextView
                 android:id="@+id/tokenLabel"
@@ -75,7 +75,7 @@
                 android:layout_alignBottom="@+id/userToken"
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="4dp"
-                android:text="User Token" />
+                android:text="User Token"/>
 
         </RelativeLayout>
     </LinearLayout>

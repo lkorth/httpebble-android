@@ -14,19 +14,19 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class PebbleConnect extends BaseActivity implements View.OnClickListener {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
 
-		((TextView) findViewById(R.id.notifications)).setMovementMethod(LinkMovementMethod.getInstance());
-		((TextView) findViewById(R.id.source)).setMovementMethod(LinkMovementMethod.getInstance());
+        ((TextView) findViewById(R.id.notifications)).setMovementMethod(LinkMovementMethod.getInstance());
+        ((TextView) findViewById(R.id.source)).setMovementMethod(LinkMovementMethod.getInstance());
         findViewById(R.id.cloud_access).setOnClickListener(this);
-	}
+    }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         checkForPlayServices();
         if (needToRegister()) {
@@ -67,11 +67,11 @@ public class PebbleConnect extends BaseActivity implements View.OnClickListener 
 
     /**
      * Gets the current registration ID for application on GCM service.
-     * <p>
+     * <p/>
      * If result is empty, the app needs to register.
      *
      * @return registration ID, or empty string if there is no existing
-     *         registration ID.
+     * registration ID.
      */
     private boolean needToRegister() {
         final SharedPreferences prefs = getSharedPreferences(Constants.HTTPEBBLE, MODE_PRIVATE);
