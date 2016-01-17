@@ -38,7 +38,7 @@ public class CloudAccess extends BaseActivity {
 		    .putString("userId", mUserId.getText().toString())
 		    .putString("userToken", mUserToken.getText().toString())
 		    .putBoolean(Constants.NEED_TO_REGISTER, true)
-		    .commit();
+		    .apply();
 
         startService(new Intent(this, RegisterIntentService.class));
 

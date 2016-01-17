@@ -30,9 +30,9 @@ public class RegisterIntentService extends IntentService {
                     prefs.edit()
                             .putString(Constants.REGISTRATION_ID, registrationId)
                             .putBoolean(Constants.NEED_TO_REGISTER, true)
-                            .commit();
+                            .apply();
                 } catch (IOException e) {
-                    prefs.edit().putBoolean(Constants.NEED_TO_REGISTER, true).commit();
+                    prefs.edit().putBoolean(Constants.NEED_TO_REGISTER, true).apply();
                 }
             }
 
@@ -64,9 +64,9 @@ public class RegisterIntentService extends IntentService {
             prefs.edit()
                     .putBoolean(Constants.NEED_TO_REGISTER, false)
                     .putInt(Constants.STORED_VERSION, BuildConfig.VERSION_CODE)
-                    .commit();
+                    .apply();
         } else {
-            prefs.edit().putBoolean(Constants.NEED_TO_REGISTER, true).commit();
+            prefs.edit().putBoolean(Constants.NEED_TO_REGISTER, true).apply();
         }
 	}
 }
