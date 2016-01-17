@@ -14,8 +14,9 @@ public class NetworkBroadcastReceiver extends WakefulBroadcastReceiver {
                 .getActiveNetworkInfo();
 
         if (network != null && network.isConnected()) {
-            if (context.getSharedPreferences(Constants.HTTPEBBLE, Context.MODE_PRIVATE).getBoolean(Constants.NEED_TO_REGISTER, true))
+            if (Settings.needToRegister(context)) {
                 startWakefulService(context, new Intent(context, RegisterIntentService.class));
+            }
         }
     }
 }

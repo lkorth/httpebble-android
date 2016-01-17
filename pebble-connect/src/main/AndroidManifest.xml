@@ -32,12 +32,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".CloudAccess"
-            android:icon="@drawable/icon"
-            android:label="Cloud Access"
-            android:windowSoftInputMode="stateHidden"/>
-
         <receiver android:name=".NetworkBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>

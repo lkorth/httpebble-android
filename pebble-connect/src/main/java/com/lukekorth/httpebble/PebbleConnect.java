@@ -1,18 +1,28 @@
 package com.lukekorth.httpebble;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
-public class PebbleConnect extends BaseActivity implements View.OnClickListener {
+public class PebbleConnect extends BaseActivity {
+
+    private Button mSetup;
+    private TableLayout mCredentials;
+    private TextView mUsername;
+    private TextView mToken;
+    private Button mReset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,34 +31,25 @@ public class PebbleConnect extends BaseActivity implements View.OnClickListener 
 
         ((TextView) findViewById(R.id.notifications)).setMovementMethod(LinkMovementMethod.getInstance());
         ((TextView) findViewById(R.id.source)).setMovementMethod(LinkMovementMethod.getInstance());
-        findViewById(R.id.cloud_access).setOnClickListener(this);
+        mSetup = (Button) findViewById(R.id.setup);
+        mCredentials = (TableLayout) findViewById(R.id.credentials);
+        mUsername = (TextView) findViewById(R.id.username);
+        mToken = (TextView) findViewById(R.id.token);
+        mReset = (Button) findViewById(R.id.reset);
+
+        if (!TextUtils.isEmpty(Settings.getEmail(this))) {
+            showCredentials();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        checkForPlayServices();
-        if (needToRegister()) {
-            startService(new Intent(this, RegisterIntentService.class));
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        startActivity(new Intent(this, CloudAccess.class));
-    }
-
-    /**
-     * Check the device to make sure it has the Google Play Services APK. If
-     * it doesn't, display a dialog that allows users to download the APK from
-     * the Google Play Store or enable it in the device's system settings.
-     */
-    private void checkForPlayServices() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
         if (resultCode != ConnectionResult.SUCCESS) {
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this, 9000).show();
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this, 1).show();
             } else {
                 new AlertDialog.Builder(this)
                         .setTitle("Device not supported")
@@ -63,28 +64,67 @@ public class PebbleConnect extends BaseActivity implements View.OnClickListener 
                         .show();
             }
         }
+
+        if (Settings.needToRegister(this)) {
+            startService(new Intent(this, RegisterIntentService.class));
+        }
     }
 
-    /**
-     * Gets the current registration ID for application on GCM service.
-     * <p/>
-     * If result is empty, the app needs to register.
-     *
-     * @return registration ID, or empty string if there is no existing
-     * registration ID.
-     */
-    private boolean needToRegister() {
-        final SharedPreferences prefs = getSharedPreferences(Constants.HTTPEBBLE, MODE_PRIVATE);
+    private void showCredentials() {
+        mSetup.setVisibility(View.GONE);
+        mCredentials.setVisibility(View.VISIBLE);
+        mUsername.setText(Settings.getEmail(this));
+        mToken.setText(Settings.getToken(this));
+        mReset.setVisibility(View.VISIBLE);
+    }
 
-        // Check if app was updated; if so, it must clear the registration ID
-        // since the existing regID is not guaranteed to work with the new
-        // app version.
-        int registeredVersion = prefs.getInt(Constants.STORED_VERSION, Integer.MIN_VALUE);
-        int currentVersion = BuildConfig.VERSION_CODE;
-        if (registeredVersion != currentVersion) {
-            return true;
+    public void setup(View v) {
+        Account[] accounts = AccountManager.get(this).getAccountsByType("com.google");
+        if (accounts.length == 0) {
+            new AlertDialog.Builder(this)
+                    .setMessage(R.string.no_emails_found)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        } else {
+            final String[] emails = new String[accounts.length];
+            for (int i = 0; i < accounts.length; i++) {
+                emails[i] = accounts[i].name;
+            }
+
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.choose_email)
+                    .setSingleChoiceItems(emails, -1, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Settings.setEmail(PebbleConnect.this, emails[which]);
+                        }
+                    })
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.dismiss();
+
+                            if (!TextUtils.isEmpty(Settings.getEmail(PebbleConnect.this))) {
+                                showCredentials();
+
+                                Settings.setNeedToRegister(PebbleConnect.this, true);
+                                startService(new Intent(PebbleConnect.this, RegisterIntentService.class));
+                            }
+                        }
+                    })
+                    .show();
         }
+    }
 
-        return prefs.getString(Constants.REGISTRATION_ID, "").isEmpty();
+    public void reset(View v) {
+        Settings.setEmail(this, null);
+        Settings.clearToken(this);
+        mCredentials.setVisibility(View.GONE);
+        mReset.setVisibility(View.GONE);
+        mSetup.setVisibility(View.VISIBLE);
     }
 }

@@ -3,6 +3,7 @@ package com.lukekorth.httpebble;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
@@ -23,17 +24,13 @@ public class RegisterIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         SharedPreferences prefs = getSharedPreferences(Constants.HTTPEBBLE, MODE_PRIVATE);
 
-        if (!prefs.getString("userId", "").isEmpty() && !prefs.getString("userToken", "").isEmpty()) {
-            if (prefs.getString(Constants.REGISTRATION_ID, "").isEmpty()) {
+        if (!TextUtils.isEmpty(Settings.getEmail(this)) && !TextUtils.isEmpty(Settings.getToken(this))) {
+            if (TextUtils.isEmpty(Settings.getGCMRegistrationId(this))) {
                 try {
-                    String registrationId = GoogleCloudMessaging.getInstance(this).register(Constants.GCM_ID);
-                    prefs.edit()
-                            .putString(Constants.REGISTRATION_ID, registrationId)
-                            .putBoolean(Constants.NEED_TO_REGISTER, true)
-                            .apply();
-                } catch (IOException e) {
-                    prefs.edit().putBoolean(Constants.NEED_TO_REGISTER, true).apply();
-                }
+                    Settings.setGCMRegistrationId(this, GoogleCloudMessaging.getInstance(this).register(Constants.GCM_ID));
+                } catch (IOException ignored) {}
+
+                Settings.setNeedToRegister(this, true);
             }
 
             register(prefs);
@@ -45,9 +42,9 @@ public class RegisterIntentService extends IntentService {
     private void register(SharedPreferences prefs) {
         JSONObject data = new JSONObject();
         try {
-            data.put("userId", prefs.getString("userId", ""));
-            data.put("userToken", prefs.getString("userToken", ""));
-            data.put("gcmId", prefs.getString(Constants.REGISTRATION_ID, ""));
+            data.put("userId", Settings.getEmail(this));
+            data.put("userToken", Settings.getToken(this));
+            data.put("gcmId", Settings.getGCMRegistrationId(this));
         } catch (JSONException e1) {
             data = new JSONObject();
         }
@@ -61,12 +58,9 @@ public class RegisterIntentService extends IntentService {
         }
 
         if (code == 200) {
-            prefs.edit()
-                    .putBoolean(Constants.NEED_TO_REGISTER, false)
-                    .putInt(Constants.STORED_VERSION, BuildConfig.VERSION_CODE)
-                    .apply();
+            Settings.setNeedToRegister(this, false);
         } else {
-            prefs.edit().putBoolean(Constants.NEED_TO_REGISTER, true).apply();
+            Settings.setNeedToRegister(this, true);
         }
     }
 }

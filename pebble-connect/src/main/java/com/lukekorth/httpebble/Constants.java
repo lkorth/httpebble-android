@@ -5,9 +5,7 @@ public class Constants {
     public static final String HTTPEBBLE = "httpebble";
     public static final String REGISTER_URL = "https://ofkorth.net/pebble/register";
     public static final String GCM_ID = "444472151507";
-    public static final String REGISTRATION_ID = "gcmId";
     public static final String STORED_VERSION = "storedVersion";
-    public static final String NEED_TO_REGISTER = "needToRegister";
 
     public static final String ONE_DOLLAR = "$1";
     public static final String TWO_DOLLARS = "$2";
