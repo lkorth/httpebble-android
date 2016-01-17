@@ -6,8 +6,8 @@ import android.content.DialogInterface;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.lukekorth.httpebble.util.IabHelper;
-import com.lukekorth.httpebble.util.IabResult;
+import com.lukekorth.httpebble.billing.IabHelper;
+import com.lukekorth.httpebble.billing.IabResult;
 
 public class BaseActivity extends Activity {
 

@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.lukekorth.httpebble.util;
+package com.lukekorth.httpebble.billing;
 
 import android.text.TextUtils;
 import android.util.Log;

@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.lukekorth.httpebble.util;
+package com.lukekorth.httpebble.billing;
 
 /**
  * Exception thrown when something went wrong with in-app billing.

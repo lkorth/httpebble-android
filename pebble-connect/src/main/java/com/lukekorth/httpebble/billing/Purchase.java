@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.lukekorth.httpebble.util;
+package com.lukekorth.httpebble.billing;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.lukekorth.httpebble.util;
+package com.lukekorth.httpebble.billing;
 
 /**
  * Exception thrown when encountering an invalid Base64 input character.
