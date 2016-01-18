@@ -4,6 +4,7 @@
     <string name="action_settings">Settings</string>
     <string name="setup">Setup</string>
     <string name="donate">Donate</string>
+    <string name="select_donation_amount">Select a donation amount</string>
     <string name="welcome">Welcome to Pebble Connect, this app allows your Pebble smart watch to receive notifications from the Internet using IFTTT or an API.</string>
     <string name="notifications">Once you have setup the app, you can visit the <a href="http://lukekorth.com/blog/restful-pebble/">documentation</a> to learn how to setup IFTTT or use the API</string>
     <string name="source">The source code can be found on <a href="https://github.com/lkorth/httpebble-android">GitHub</a>.</string>
@@ -20,5 +21,7 @@
     <string name="username">Username</string>
     <string name="token">Token</string>
     <string name="reset">Reset</string>
+    <string name="device_not_supported">Device not supported</string>
+    <string name="device_not_supported_message">This device does not support the required Google services. The app will now close.</string>
     <string name="billing_public_key">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnhf5yhhSIUQe31YuT7G2DjmtNcTiC1dte+4RXFN514XGT10kAlYImuVW7RVrNtW06bs7KhsDHLamQOV5s94IR/OiQ+OwZDwG9CTz+6q9WlTp3tNe6moTkxxnITEkxWoQIu7D7MWfJ4aWVihDUbn5fJ/ZuZoCVDUdTQr1nKs1zNxhWR8fYEi7NQqr83cCJYBi8AOShi2PtX16MW9Ts1IytYAiQ3mvCHiiivaFRyBeHy8DFWlaa/EHn2KXGV//f5OhxDqw8HCe4DGwaljWday6Xv28zThO9r6AYWSgv+RfknxeVh3xa7vWFNdVRFf+K+8onbC8sr4tEjnjBWacV3mPFQIDAQAB</string>
 </resources>

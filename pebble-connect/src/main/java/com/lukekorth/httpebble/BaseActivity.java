@@ -11,16 +11,30 @@ import com.lukekorth.httpebble.billing.IabResult;
 
 public class BaseActivity extends AppCompatActivity {
 
+    private static final String ONE_DOLLAR = "$1";
+    private static final String TWO_DOLLARS = "$2";
+    private static final String THREE_DOLLARS = "$3";
+    private static final String FIVE_DOLLARS = "$5";
+    private static final String TEN_DOLLARS = "$10";
+    private static final String[] DONATION_AMOUNTS = { ONE_DOLLAR, TWO_DOLLARS, THREE_DOLLARS, FIVE_DOLLARS, TEN_DOLLARS };
+    private static final String ONE_DOLLAR_ITEM = "httpebble.donation.1";
+    private static final String TWO_DOLLARS_ITEM = "httpebble.donation.2";
+    private static final String THREE_DOLLARS_ITEM = "httpebble.donation.3";
+    private static final String FIVE_DOLLARS_ITEM = "httpebble.donation.5";
+    private static final String TEN_DOLLARS_ITEM = "httpebble.donation.10";
+    private static final String[] DONATION_ITEMS = { ONE_DOLLAR_ITEM, TWO_DOLLARS_ITEM, THREE_DOLLARS_ITEM,
+            FIVE_DOLLARS_ITEM, TEN_DOLLARS_ITEM };
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(R.string.donate).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 new AlertDialog.Builder(BaseActivity.this)
-                        .setTitle("Select a donation amount")
-                        .setItems(Constants.DONATION_AMOUNTS, new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.select_donation_amount)
+                        .setItems(DONATION_AMOUNTS, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                makePurchase(Constants.DONATION_ITEMS[which]);
+                                makePurchase(DONATION_ITEMS[which]);
                             }
                         })
                         .create()

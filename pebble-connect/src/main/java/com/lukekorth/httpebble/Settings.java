@@ -11,7 +11,6 @@ public class Settings {
     private static final String EMAIL = "email";
     private static final String TOKEN = "token";
     private static final String NEED_TO_REGISTER = "need_to_register";
-    private static final String REGISTRATION_ID = "gcm_id";
 
     public static String getEmail(Context context) {
         return getPreferences(context).getString(EMAIL, null);
@@ -49,14 +48,6 @@ public class Settings {
 
     public static void setNeedToRegister(Context context, boolean shouldRegister) {
         getPreferences(context).edit().putBoolean(NEED_TO_REGISTER, shouldRegister).apply();
-    }
-
-    public static String getGCMRegistrationId(Context context) {
-        return getPreferences(context).getString(REGISTRATION_ID, null);
-    }
-
-    public static void setGCMRegistrationId(Context context, String id) {
-        getPreferences(context).edit().putString(REGISTRATION_ID, id).apply();
     }
 
     private static SharedPreferences getPreferences(Context context) {

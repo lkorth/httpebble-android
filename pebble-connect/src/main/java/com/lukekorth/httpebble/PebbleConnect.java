@@ -14,7 +14,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 public class PebbleConnect extends BaseActivity {
 
@@ -46,15 +46,15 @@ public class PebbleConnect extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        int resultCode = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
         if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this, 1).show();
+            if (GoogleApiAvailability.getInstance().isUserResolvableError(resultCode)) {
+                GoogleApiAvailability.getInstance().getErrorDialog(this, resultCode, 1).show();
             } else {
                 new AlertDialog.Builder(this)
-                        .setTitle("Device not supported")
-                        .setMessage("This device does not support the required Google services. The app will now close")
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.device_not_supported)
+                        .setMessage(R.string.device_not_supported_message)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -66,7 +66,7 @@ public class PebbleConnect extends BaseActivity {
         }
 
         if (Settings.needToRegister(this)) {
-            startService(new Intent(this, RegisterIntentService.class));
+            startService(new Intent(this, RegistrationIntentService.class));
         }
     }
 
@@ -112,7 +112,7 @@ public class PebbleConnect extends BaseActivity {
                                 showCredentials();
 
                                 Settings.setNeedToRegister(PebbleConnect.this, true);
-                                startService(new Intent(PebbleConnect.this, RegisterIntentService.class));
+                                startService(new Intent(PebbleConnect.this, RegistrationIntentService.class));
                             }
                         }
                     })
