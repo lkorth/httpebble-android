@@ -3,8 +3,9 @@
     <string name="app_name">Pebble Connect</string>
     <string name="action_settings">Settings</string>
     <string name="setup">Setup</string>
-    <string name="donate">Donate</string>
-    <string name="select_donation_amount">Select a donation amount</string>
+    <string name="upgrade">Upgrade</string>
+    <string name="upgrade_description">Purchasing the Pebble Connect upgrade for $1 allows notifications to be delivered instantly instead of the up-to 5 minute delay typically experienced.</string>
+    <string name="purchase">Purchase</string>
     <string name="welcome">Welcome to Pebble Connect, this app allows your Pebble smart watch to receive notifications from the Internet using IFTTT or an API.</string>
     <string name="notifications">Once you have setup the app, you can visit the <a href="http://lukekorth.com/blog/restful-pebble/">documentation</a> to learn how to setup IFTTT or use the API</string>
     <string name="source">The source code can be found on <a href="https://github.com/lkorth/httpebble-android">GitHub</a>.</string>

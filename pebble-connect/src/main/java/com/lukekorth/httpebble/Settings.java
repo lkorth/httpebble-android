@@ -8,9 +8,18 @@ import java.util.Random;
 
 public class Settings {
 
+    private static final String PURCHASED = "purchased";
     private static final String EMAIL = "email";
     private static final String TOKEN = "token";
     private static final String NEED_TO_REGISTER = "need_to_register";
+
+    public static boolean hasPurchased(Context context) {
+        return getPreferences(context).getBoolean(PURCHASED, false);
+    }
+
+    public static void setPurchased(Context context, boolean purchased) {
+        getPreferences(context).edit().putBoolean(PURCHASED, purchased).apply();
+    }
 
     public static String getEmail(Context context) {
         return getPreferences(context).getString(EMAIL, null);

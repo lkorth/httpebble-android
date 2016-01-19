@@ -6,8 +6,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -15,9 +18,14 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.lukekorth.httpebble.billing.IabHelper;
+import com.lukekorth.httpebble.billing.IabResult;
+import com.lukekorth.httpebble.billing.Inventory;
+import com.lukekorth.httpebble.billing.Purchase;
 
-public class PebbleConnect extends BaseActivity {
+public class PebbleConnect extends AppCompatActivity {
 
+    private IabHelper mIabHelper;
     private Button mSetup;
     private TableLayout mCredentials;
     private TextView mUsername;
@@ -67,6 +75,15 @@ public class PebbleConnect extends BaseActivity {
 
         if (Settings.needToRegister(this)) {
             startService(new Intent(this, RegistrationIntentService.class));
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mIabHelper != null) {
+            mIabHelper.dispose();
         }
     }
 
@@ -126,5 +143,71 @@ public class PebbleConnect extends BaseActivity {
         mCredentials.setVisibility(View.GONE);
         mReset.setVisibility(View.GONE);
         mSetup.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        if (Settings.hasPurchased(this)) {
+            return true;
+        }
+
+        mIabHelper = new IabHelper(this, getString(R.string.billing_public_key));
+        mIabHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+            @Override
+            public void onIabSetupFinished(IabResult result) {
+                mIabHelper.queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener() {
+                    @Override
+                    public void onQueryInventoryFinished(IabResult result, Inventory inv) {
+                        if (result.isSuccess()) {
+                            if (inv.hasPurchase("httpebble.unlock") || inv.hasPurchase("httpebble.donation.1") ||
+                                    inv.hasPurchase("httpebble.donation.2") || inv.hasPurchase("httpebble.donation.3") ||
+                                    inv.hasPurchase("httpebble.donation.5") || inv.hasPurchase("httpebble.donation.10")) {
+                                Settings.setPurchased(PebbleConnect.this, true);
+                                startService(new Intent(PebbleConnect.this, RegistrationIntentService.class));
+                            } else {
+                                final MenuItem upgrade = menu.add(R.string.upgrade);
+                                upgrade.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                                    @Override
+                                    public boolean onMenuItemClick(MenuItem item) {
+                                        new AlertDialog.Builder(PebbleConnect.this)
+                                                .setTitle(R.string.upgrade)
+                                                .setMessage(R.string.upgrade_description)
+                                                .setPositiveButton(R.string.purchase, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        mIabHelper.launchPurchaseFlow(PebbleConnect.this,
+                                                                "httpebble.unlock", 1, new IabHelper.OnIabPurchaseFinishedListener() {
+                                                                    @Override
+                                                                    public void onIabPurchaseFinished(IabResult result, Purchase info) {
+                                                                        upgrade.setVisible(false);
+                                                                        PebbleConnect.this.invalidateOptionsMenu();
+                                                                        Settings.setPurchased(PebbleConnect.this,
+                                                                                result.isSuccess());
+                                                                        startService(new Intent(PebbleConnect.this,
+                                                                                RegistrationIntentService.class));
+                                                                    }
+                                                                });
+                                                        dialog.dismiss();
+                                                    }
+                                                })
+                                                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                })
+                                                .show();
+
+                                        return true;
+                                    }
+                                }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
+        return true;
     }
 }
