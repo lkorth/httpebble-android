@@ -28,7 +28,7 @@ public class RegistrationIntentService extends IntentService {
                 data.put("userToken", Settings.getToken(this));
                 data.put("gcmId", InstanceID.getInstance(this).getToken(getString(R.string.gcm_defaultSenderId),
                         GoogleCloudMessaging.INSTANCE_ID_SCOPE, null));
-                data.put("purchased", Settings.hasPurchased(this));
+                data.put("purchased", Settings.hasPurchased(this) || BuildConfig.DEBUG);
 
                 int code = HttpRequest.post("https://ofkorth.net/pebble/register")
                         .send("data=" + data.toString())
