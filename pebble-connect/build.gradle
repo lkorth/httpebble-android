@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 23
@@ -29,7 +28,7 @@ android {
 }
 
 dependencies {
-    compile 'com.google.android.gms:play-services-gcm:8.3.0'
+    compile 'com.google.android.gms:play-services-gcm:8.4.0'
     compile 'com.android.support:appcompat-v7:23.1.1'
 }
 
@@ -52,3 +51,5 @@ gradle.taskGraph.whenReady { taskGraph ->
         android.signingConfigs.release.keyPassword = password
     }
 }
+
+apply plugin: 'com.google.gms.google-services'
