@@ -37,6 +37,8 @@ public class PebbleConnect extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        Settings.upgradeVersion(this);
+
         ((TextView) findViewById(R.id.notifications)).setMovementMethod(LinkMovementMethod.getInstance());
         ((TextView) findViewById(R.id.source)).setMovementMethod(LinkMovementMethod.getInstance());
         mSetup = (Button) findViewById(R.id.setup);

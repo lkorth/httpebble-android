@@ -3,6 +3,7 @@ package com.lukekorth.httpebble;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 
 import java.util.Random;
 
@@ -12,6 +13,25 @@ public class Settings {
     private static final String EMAIL = "email";
     private static final String TOKEN = "token";
     private static final String NEED_TO_REGISTER = "need_to_register";
+
+    public static void upgradeVersion(Context context) {
+        SharedPreferences preferences = getPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        String userId = preferences.getString("userId", null);
+        if (!TextUtils.isEmpty(userId)) {
+            editor.remove("userId")
+                    .putString(EMAIL, userId);
+        }
+
+        String userToken = preferences.getString("userToken", null);
+        if (!TextUtils.isEmpty(userToken)) {
+            editor.remove("userToken")
+                    .putString(TOKEN, userToken);
+        }
+
+        editor.apply();
+    }
 
     public static boolean hasPurchased(Context context) {
         return getPreferences(context).getBoolean(PURCHASED, false);
