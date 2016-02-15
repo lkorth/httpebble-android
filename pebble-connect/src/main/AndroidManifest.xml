@@ -47,7 +47,7 @@
         </receiver>
 
         <service
-            android:name=".GcmNotifiationService"
+            android:name=".GcmNotificationService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />

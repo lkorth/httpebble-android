@@ -9,7 +9,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.google.android.gms.gcm.GcmListenerService;
 
-public class GcmNotifiationService extends GcmListenerService {
+public class GcmNotificationService extends GcmListenerService {
 
     @Override
     public void onMessageReceived(String from, Bundle data) {
