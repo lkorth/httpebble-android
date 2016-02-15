@@ -13,6 +13,10 @@ public class GcmNotificationService extends GcmListenerService {
 
     @Override
     public void onMessageReceived(String from, Bundle data) {
+        if (!Settings.getToken(this).equals(data.getString("token"))) {
+            return;
+        }
+
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.icon)
