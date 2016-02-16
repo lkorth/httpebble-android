@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -31,6 +32,7 @@ public class PebbleConnect extends AppCompatActivity {
     private TextView mUsername;
     private TextView mToken;
     private Button mReset;
+    private Button mDocumentation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class PebbleConnect extends AppCompatActivity {
         mUsername = (TextView) findViewById(R.id.username);
         mToken = (TextView) findViewById(R.id.token);
         mReset = (Button) findViewById(R.id.reset);
+        mDocumentation = (Button) findViewById(R.id.documentation);
 
         if (!TextUtils.isEmpty(Settings.getEmail(this))) {
             showCredentials();
@@ -95,6 +98,7 @@ public class PebbleConnect extends AppCompatActivity {
         mUsername.setText(Settings.getEmail(this));
         mToken.setText(Settings.getToken(this));
         mReset.setVisibility(View.VISIBLE);
+        mDocumentation.setVisibility(View.VISIBLE);
     }
 
     public void setup(View v) {
@@ -144,7 +148,12 @@ public class PebbleConnect extends AppCompatActivity {
         Settings.clearToken(this);
         mCredentials.setVisibility(View.GONE);
         mReset.setVisibility(View.GONE);
+        mDocumentation.setVisibility(View.GONE);
         mSetup.setVisibility(View.VISIBLE);
+    }
+
+    public void documentation(View v) {
+        startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("http://lukekorth.com/blog/restful-pebble/")));
     }
 
     @Override

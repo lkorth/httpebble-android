@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -6,110 +6,124 @@
               android:paddingLeft="@dimen/activity_horizontal_margin"
               android:paddingRight="@dimen/activity_horizontal_margin"
               android:paddingTop="@dimen/activity_vertical_margin"
-              tools:context=".PebbleConnect"
-              android:orientation="vertical">
+              tools:context=".PebbleConnect">
 
-    <TextView
-        android:id="@+id/welcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/welcome"
-        android:textSize="18sp"/>
-
-    <TextView
-        android:id="@+id/notifications"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/notifications"
-        android:textSize="18sp"/>
-
-    <TextView
-        android:id="@+id/source"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/source"
-        android:textSize="18sp"/>
-
-    <Button
-        android:id="@+id/setup"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="@string/setup"
-        android:onClick="setup"/>
+        android:orientation="vertical">
 
-    <TableLayout
-        android:id="@+id/credentials"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone"
-        android:stretchColumns="*"
-        android:background="@android:color/darker_gray">
+        <TextView
+            android:id="@+id/welcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/welcome"
+            android:textSize="18sp"/>
 
-        <TableRow
+        <TextView
+            android:id="@+id/notifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/notifications"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/source"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/setup"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="1dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:text="@string/setup"
+            android:onClick="setup"/>
 
-            <TextView
-                android:text="@string/username"
-                android:layout_gravity="center"
-                android:textSize="14sp"/>
-
-        </TableRow>
-
-        <TableRow
+        <TableLayout
+            android:id="@+id/credentials"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:layout_margin="1dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"
+            android:stretchColumns="*"
+            android:background="@android:color/darker_gray">
 
-            <TextView
-                android:id="@+id/username"
-                android:layout_gravity="center"
-                android:layout_margin="4dp"
-                android:textSize="20sp"/>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="1dp">
 
-        </TableRow>
+                <TextView
+                    android:text="@string/username"
+                    android:layout_gravity="center"
+                    android:textSize="14sp"/>
 
-        <TableRow
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:layout_margin="1dp">
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:textSize="20sp"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="1dp">
+
+                <TextView
+                    android:text="@string/token"
+                    android:layout_gravity="center"
+                    android:textSize="14sp"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:layout_margin="1dp">
+
+                <TextView
+                    android:id="@+id/token"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:textSize="20sp"/>
+
+            </TableRow>
+        </TableLayout>
+
+        <Button
+            android:id="@+id/reset"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="1dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/reset"
+            android:onClick="reset"
+            android:visibility="gone"/>
 
-            <TextView
-                android:text="@string/token"
-                android:layout_gravity="center"
-                android:textSize="14sp"/>
-
-        </TableRow>
-
-        <TableRow
+        <Button
+            android:id="@+id/documentation"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:layout_margin="1dp">
+            android:layout_height="wrap_content"
+            android:text="@string/documentation"
+            android:onClick="documentation"
+            android:visibility="gone"/>
 
-            <TextView
-                android:id="@+id/token"
-                android:layout_gravity="center"
-                android:layout_margin="4dp"
-                android:textSize="20sp"/>
+    </LinearLayout>
 
-        </TableRow>
-    </TableLayout>
-
-    <Button
-        android:id="@+id/reset"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/reset"
-        android:onClick="reset"
-        android:visibility="gone"/>
-
-</LinearLayout>
+</ScrollView>

@@ -9,19 +9,13 @@
     <string name="welcome">Welcome to Pebble Connect, this app allows your Pebble smart watch to receive notifications from the Internet using IFTTT or an API.</string>
     <string name="notifications">Once you have setup the app, you can visit the <a href="http://lukekorth.com/blog/restful-pebble/">documentation</a> to learn how to setup IFTTT or use the API</string>
     <string name="source">The source code can be found on <a href="https://github.com/lkorth/httpebble-android">GitHub</a>.</string>
-    <string name="explanation">Cloud Access allows your Pebble to receive notifications and data from the Internet.
-        Your Pebble can be used as a channel on <a href="https://ifttt.com/">IFTTT</a> or you can use the API to integrate with just about anything else.
-        For more information please see the <a href="http://lukekorth.com/blog/restful-pebble/">documentation</a>.
-        To use the IFTTT channel, you must enable the Wordpress channel with ofkorth.net/pebble as the domain, your username as the username and token as the password.
-        When creating an IFTTT recipe, you should select the Wordpress create a post option.
-        The text you enter for the title will appear as the title in the notification on your Pebble and the text entered for the body will appear as the body of the notification on your Pebble.
-        Categories and tags can be left blank and select publish immediately.</string>
     <string name="authentication">Changing your username at anytime will invalidate you previous token and not allow it to send data to your Pebble.</string>
     <string name="no_emails_found">You are not logged in with any Google accounts on this device. Please add a Google account before continuing.</string>
     <string name="choose_email">Choose the email to use</string>
     <string name="username">Username</string>
     <string name="token">Token</string>
     <string name="reset">Reset</string>
+    <string name="documentation">Documentation</string>
     <string name="device_not_supported">Device not supported</string>
     <string name="device_not_supported_message">This device does not support the required Google services. The app will now close.</string>
     <string name="billing_public_key">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnhf5yhhSIUQe31YuT7G2DjmtNcTiC1dte+4RXFN514XGT10kAlYImuVW7RVrNtW06bs7KhsDHLamQOV5s94IR/OiQ+OwZDwG9CTz+6q9WlTp3tNe6moTkxxnITEkxWoQIu7D7MWfJ4aWVihDUbn5fJ/ZuZoCVDUdTQr1nKs1zNxhWR8fYEi7NQqr83cCJYBi8AOShi2PtX16MW9Ts1IytYAiQ3mvCHiiivaFRyBeHy8DFWlaa/EHn2KXGV//f5OhxDqw8HCe4DGwaljWday6Xv28zThO9r6AYWSgv+RfknxeVh3xa7vWFNdVRFf+K+8onbC8sr4tEjnjBWacV3mPFQIDAQAB</string>
