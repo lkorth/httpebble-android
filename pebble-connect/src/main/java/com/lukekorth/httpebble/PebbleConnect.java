@@ -5,8 +5,12 @@ import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
@@ -23,6 +27,8 @@ import com.lukekorth.httpebble.billing.IabHelper;
 import com.lukekorth.httpebble.billing.IabResult;
 import com.lukekorth.httpebble.billing.Inventory;
 import com.lukekorth.httpebble.billing.Purchase;
+
+import static android.Manifest.permission.GET_ACCOUNTS;
 
 public class PebbleConnect extends AppCompatActivity {
 
@@ -92,6 +98,14 @@ public class PebbleConnect extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (ContextCompat.checkSelfPermission(this, GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED) {
+            setup(null);
+        }
+    }
+
     private void showCredentials() {
         mSetup.setVisibility(View.GONE);
         mCredentials.setVisibility(View.VISIBLE);
@@ -102,44 +116,49 @@ public class PebbleConnect extends AppCompatActivity {
     }
 
     public void setup(View v) {
-        Account[] accounts = AccountManager.get(this).getAccountsByType("com.google");
-        if (accounts.length == 0) {
-            new AlertDialog.Builder(this)
-                    .setMessage(R.string.no_emails_found)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .show();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                ContextCompat.checkSelfPermission(this, GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[] { GET_ACCOUNTS }, 1);
         } else {
-            final String[] emails = new String[accounts.length];
-            for (int i = 0; i < accounts.length; i++) {
-                emails[i] = accounts[i].name;
-            }
-
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.choose_email)
-                    .setSingleChoiceItems(emails, -1, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Settings.setEmail(PebbleConnect.this, emails[which]);
-                        }
-                    })
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.dismiss();
-
-                            if (!TextUtils.isEmpty(Settings.getEmail(PebbleConnect.this))) {
-                                showCredentials();
-
-                                Settings.setNeedToRegister(PebbleConnect.this, true);
-                                startService(new Intent(PebbleConnect.this, RegistrationIntentService.class));
+            Account[] accounts = AccountManager.get(this).getAccountsByType("com.google");
+            if (accounts.length == 0) {
+                new AlertDialog.Builder(this)
+                        .setMessage(R.string.no_emails_found)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
                             }
-                        }
-                    })
-                    .show();
+                        })
+                        .show();
+            } else {
+                final String[] emails = new String[accounts.length];
+                for (int i = 0; i < accounts.length; i++) {
+                    emails[i] = accounts[i].name;
+                }
+
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.choose_email)
+                        .setSingleChoiceItems(emails, -1, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Settings.setEmail(PebbleConnect.this, emails[which]);
+                            }
+                        })
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.dismiss();
+
+                                if (!TextUtils.isEmpty(Settings.getEmail(PebbleConnect.this))) {
+                                    showCredentials();
+
+                                    Settings.setNeedToRegister(PebbleConnect.this, true);
+                                    startService(new Intent(PebbleConnect.this, RegistrationIntentService.class));
+                                }
+                            }
+                        })
+                        .show();
+            }
         }
     }
 
